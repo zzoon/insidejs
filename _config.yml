@@ -12,6 +12,8 @@ permalink:          /:year/:month/:day/:title.html
 
 # Markdown
 markdown:           kramdown
+kramdown:
+  input: GFM
 
 # Navigation
 nav:
