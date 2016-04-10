@@ -1,0 +1,71 @@
+---
+layout: post
+title: text() 메소드
+date: '2011-04-25 23:12:43'
+---
+
+이 글은 jquery-1.2.2.js 기반으로 작성되었다.
+
+이번엔 text 메소드를 알아보자.
+
+먼저 api document에는 다음과 같이 정의되어 있다.
+
+<blockquote>
+<strong>.text() </strong>
+자손을 포함한 해당 DOM 요소의 결합된 텍스트 컨텐트를 받는다.
+
+<strong> .text(textString) </strong>
+해당 DOM 요소의 컨텐트를 testString으로 set한다.
+</blockquote>
+
+간단히 얘기하면, DOM 요소의 텍스트 컨텐트를 가져오거나 설정하기 위해 사용되는 함수이다.
+이는 html() 메소드와 매우 유사하지만, 다른 점은 text()는 HTML을 escape한다는 것이다.
+즉, text() 메소드에 전달된 텍스트 문자열 안에 태그가 존재한다면 그들이 HTML 엔티티( &amp;lt; &amp;gt;)로 변환됨을 말한다.
+
+소스를 살펴보자.
+
+[sourcecode language="javascript"]
+	text: function( text ) {
+	
+		// &quot;text&quot; 인자가 object 가 아니고 null이 아닌 경우, 즉 Set이 수행된다.
+        if ( typeof text != &quot;object&quot; &amp;&amp; text != null )
+        
+        	// 해당 요소 아래의 자식들을 모두 없애고, append함수를 실행한다.
+        	// createTextNode는 인자로 들어오는 text를 컨텐트로 가지는 Text Node를 리턴한다.
+            return this.empty().append( (this[0] &amp;&amp; this[0].ownerDocument || document).createTextNode( text ) ); 
+
+        var ret = &quot;&quot;;
+
+		// each메소드 안에서 다시 each메소드가 실행됨을 주의해서 보자.
+		// 바깥족 each의 this는 사용자가 생성한 jQuery객체의 DOM 요소가 된다.
+        jQuery.each( text || this, function(){
+        
+        	// 안쪽 each의 this는 상위 요소의 자식 요소의 하나가 된다. 
+        	// 각각의 자식 요소를 this로 하는 함수가 루프를 돌며 실행될 것이다. 
+        	// 자식 요소가 element node이면 이를 인자로 하는 text()를 다시 호출하고, 
+        	// 그렇지 않으면 nodeValue를 읽어서 ret에 붙인다.
+            jQuery.each( this.childNodes, function(){
+            
+            	// nodeType 8 은 Node.COMMENT_NODE 이다.
+                if ( this.nodeType != 8 )
+                	
+                	// nodetype이 1 ( Node.ELEMENT_NODE ) 인 경우 text()메소드를 다시 호출한다. 
+                	// nodetype이 1 이 아닌 경우, nodeValue를 읽어서 변수 ret에 붙인다.
+                    ret += this.nodeType != 1 ?
+                        this.nodeValue :
+                        // this를 배열에 넣는 이유는 다시 text()로 넘겼을 때, 
+                        // this 자체(DOM요소)를 each의 콜백 펑션의 this로 쓰기 위함이다. 
+                        // 배열에 넣지 않고 그냥 this를 넘기면서 text()를 호출한다면, 
+                        // each메소드에서 이 요소가 가지고 있는 프로퍼티들을 가지고 루프를 돌려고 하는데, 
+                        // 두번째 each메소드를 호출할 때 this.childNodes가 undefined 이 된다. 
+                        // this가 이미 DOM요소가 아닌 기대되지 않는 프로퍼티로 들어오기 때문이다.
+                        jQuery.fn.text( [ this ] ); 
+            });  
+        });  
+
+        return ret; 
+    },   
+
+
+[/sourcecode]
+
