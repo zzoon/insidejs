@@ -1,10 +1,18 @@
 ---
+layout: page
 title: About
 permalink: /about/
 ---
 
-<p class="lead"><a href="http://github.com/gfjaru/Kiko">Kiko</a> is a theme for <a href="http://jekyllrb.com">Jekyll</a>, the static site generator.</p>
+Inside.JS는 Javascript, Node.js, jQuery 등 자바스크립트 관련 기술을 정리하는 블로그입니다.
+이 블로그를 정리하는 멤버는 아래와 같습니다.
 
-Kiko is simple, lightweight theme. It's designed and developed by [@gfjaru](https://twitter.com/gfjaru).
+송형주
+{% include icon-twitter.html username="iamhjoo" %}
 
+고현준
+{% include icon-twitter.html username="zzoon" %}
+
+양원석
+{% include icon-twitter.html username="before30" %}
 
