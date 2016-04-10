@@ -4,15 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Inside.JS는 Javascript, Node.js, jQuery 등 자바스크립트 관련 기술을 정리하는 블로그입니다.
-이 블로그를 정리하는 멤버는 아래와 같습니다.
+This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
 
-송형주
-{% include icon-twitter.html username="iamhjoo" %}
+You can find the source code for the Jekyll new theme at:
+{% include icon-github.html username="jglovier" %} /
+[jekyll-new](https://github.com/jglovier/jekyll-new)
 
-고현준
-{% include icon-twitter.html username="zzoon" %}
-
-양원석
-{% include icon-twitter.html username="before30" %}
-
+You can find the source code for Jekyll at
+{% include icon-github.html username="jekyll" %} /
+[jekyll](https://github.com/jekyll/jekyll)
