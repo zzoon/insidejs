@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>jQuery.each() 메서드</title>
+  <meta name="description" content="이번 글에서는 jQuery 소스에서 자주 사용되는 jQuery.each() 메서드에 대해서 알아보자.이 메서드의 원형은 다음과 같다.이 메서드는 1번째 인자로 전달되는 배열이나 length 프로퍼티를 가진 배열형 객체의 0에서 n-1번째 인덱스를 순환하며 2번째 인자로 전달되는 콜...">
+
+  <link rel="stylesheet" href="/insidejs/css/main.css">
+  <link rel="canonical" href="http://zzoon.github.io/insidejs/insidejs/2011/04/25/jquery-each.html">
+  <link rel="alternate" type="application/rss+xml" title="InsideJS" href="http://zzoon.github.io/insidejs/insidejs/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/insidejs/">InsideJS</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/insidejs/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">jQuery.each() 메서드</h1>
+    <p class="post-meta"><time datetime="2011-04-25T00:04:22+09:00" itemprop="datePublished">Apr 25, 2011</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>이번 글에서는 jQuery 소스에서 자주 사용되는 jQuery.each() 메서드에 대해서 알아보자.</p>
+
+<p>이 메서드의 원형은 다음과 같다.
+이 메서드는 1번째 인자로 전달되는 배열이나 length 프로퍼티를 가진 배열형 객체의 0에서 n-1번째 인덱스를 순환하며 2번째 인자로 전달되는 콜백 함수를 실행시키는 역할을 한다. 만약 일반 객체의 경우는 각 프로퍼티들을 순환하며 콜백 함수를 실행한다.</p>
+<blockquote><strong>jQuery.each( collection, callback(indexInArray, valueOfElement) )</strong>
+
+collection : 반복할 배열이나 객체
+
+callback(indexInArray, valueOfElement) : 모든 객체에서 호출될 함수</blockquote>
+<p>예제 코드 및 jQuery.each() 소스코드를 보면서 좀더 자세히 살펴보자.</p>
+
+<p>[sourcecode language=”javascript”]</p>
+
+<p>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+  div { color:blue; }
+  div#five { color:red; }
+  &lt;/style&gt;
+  &lt;script src="http://code.jquery.com/jquery-1.5.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;</p>
+
+<p>&lt;div id="one"&gt;&lt;/div&gt;
+  &lt;div id="two"&gt;&lt;/div&gt;
+  &lt;div id="three"&gt;&lt;/div&gt;
+  &lt;div id="four"&gt;&lt;/div&gt;
+  &lt;div id="five"&gt;&lt;/div&gt;
+&lt;script&gt;
+    var arr = [ "one", "two", "three", "four", "five" ];</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>jQuery.each(arr, function() {
+  $(&amp;quot;#&amp;quot; + this).text(&amp;quot;Mine is &amp;quot; + this + &amp;quot;.&amp;quot;);
+   return (this != &amp;quot;three&amp;quot;); // will stop running after &amp;quot;three&amp;quot;    }); &amp;lt;/script&amp;gt;
+</code></pre>
+</div>
+
+<p>&lt;/body&gt;
+&lt;/html&gt;</p>
+
+<p>[/sourcecode]</p>
+
+<p>위 예제에서  jQuery.each() 함수를 사용한 부분을 살펴보자.  코드는 다음과 같다.
+[sourcecode lang=”javascript”]
+ var arr = [ "one", "two", "three", "four", "five" ];</p>
+
+<p>jQuery.each(arr, function() {
+    $("#" + this).text("Mine is " + this + ".");
+    return (this != "three"); // will stop running after "three"
+ });
+[/sourcecode]</p>
+
+<p>앞서 설명한 jQuery.each() 메서드의 설명을 참조하면, 위 코드의 대략적인 역할은 arr 배열에 각 원소를 루프돌면서 콜백 함수를 실행하는 것이다.</p>
+
+<p>여기서 우선 살펴봐야 할 것은 콜백 함수에서 this가 무엇을 가리키는 것인가이다.  일반적으로 함수 내부에서 사용된 this는 이 함수를 호출하는 객체를 가리킨다.  즉 this가 가리키는 내용을 알기 위해서는 콜백 함수를 누가 호출하는지 알아야 한다. 결국 이러한 의문을 제대로 하기 위해서는 jQuery.each() 메서드의 소스 코드를 직접 살펴봐야 한다. 이와 관련해서 자세한 내용은 다음 부분에서 좀더 자세히 설명하겠다. 결론부터 얘기하면  this는 각 배열이나 객체의 원소를 가리킨다. 예를 들어 만약 첫번째 루프를 돌고 있다면 이때 콜백 함수내의 this는 “one”을 가리킨다. 결국 콜백 함수는 $(“#one”)에 의해 선택된 DOM요소의 text 값을 Mine is one.으로 바꾼다.</p>
+
+<p>또한 루프를 돌면서 콜백 함수를 실행하는 도중 콜백 함수의 리턴값이 false인 경우 이후 원소에 대한 콜백 함수 실행은 이뤄지지 않는다.</p>
+
+<p>결과값</p>
+
+<p>[sourcecode language=”html”]
+Mine is one.
+Mine is two.
+Mine is three.
+&lt;출력 안됨&gt;
+&lt;출력 안됨&gt;
+[/sourcecode]</p>
+
+<p>실제 jQuery.each() 소스를 살펴보자.<br />
+[sourcecode language=”javascript”]
+	// args is for internal usage only
+	each: function( object, callback, args ) {
+		// 콜백 함수의 인자가 있는지 체크
+		if ( args ) {
+			// 첫번째 인자로 넘어온 객체가 배열이나 배열형 객체인지를 체크
+			if ( object.length == undefined ) {
+				// 배열이 아닌 일반형 객체일 경우는 객체의 각 프로퍼티를 루프돌면서 콜백 함수를 실행한다.
+				// 콜백 함수 호출 시에 함수 인자가 전해진다.
+				// 이때 apply 메서드를 통해 실행을 시켰으므로 콜백 함수 내에서 this는 object[name]이 가리키는
+				// 값을 가리킨다. 여기서 apply 메서드를 사용한 이유는 object 인자로 넘어온 객체를 수정하기 위함이다.
+				for ( var name in object )
+                                        // 콜백 함수의 리턴값이 false인 경우 루프는 취소된다.
+					if ( callback.apply( object[ name ], args ) === false )
+						break;
+			} else
+				// 배열이나 배열형 객체일 경우, 0부터 n-1번째까지의 배열 원소들을 루프를 돌면서
+				// apply 메서드를 이용 콜백 함수 실행.
+				for ( var i = 0, length = object.length; i &lt; length; i++ )
+					if ( callback.apply( object[ i ], args ) === false )
+						break;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	// A special, fast, case for the most common use of each
+	// args가 정의되지 않은 경우
+	} else {
+		// 일반형 객체의 경우, call 메서드를 통해 콜백 함수를 호출한다. 이 경우 콜백 함수의 인자로
+		// 객체의 프로퍼티(name)와 값(object[name])이 전달된다.
+		if ( object.length == undefined ) {
+			for ( var name in object )
+				if ( callback.call( object[ name ], name, object[ name ] ) === false )
+					break;
+		} else
+		// 배열이나 배열형 객체인 경우, 0부터 n-1번째까지의 배열 원소들을 루프돌면서
+		// call 메서드를 이용해 콜백 함수 실행.
+			for ( var i = 0, length = object.length, value = object[0];
+				i &amp;lt; length &amp;amp;&amp;amp; callback.call( value, i, value ) !== false; value = object[++i] ){}
+	}
+
+	// 첫번째 인자를 다시 반환한다.
+	return object;
+}, [/sourcecode]
+</code></pre>
+</div>
+
+<p>&lt;/pre&gt;</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">InsideJS</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>InsideJS</li>
+          <li><a href="mailto:zzoonis@gmail.com">zzoonis@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/zzoon"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">zzoon</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/zzoon"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">zzoon</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>이 블로그는 "http://nodejs-kr.org/insidejs" 의 블로그를 migration 하였습니다. migration 중에 깨진 이미지나 소스코드는 추후 개선 예정입니다. 양해 부탁드립니다.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
