@@ -12,7 +12,7 @@ description: > # this means to ignore newlines until "baseurl:"
  이 블로그는 "http://nodejs-kr.org/insidejs" 의 블로그를 migration 하였습니다.
  migration 중에 깨진 이미지나 소스코드는 추후 개선 예정입니다.
  양해 부탁드립니다.
-baseurl: # the subpath of your site, e.g. /blog
+baseurl: /insidejs # the subpath of your site, e.g. /blog
 url: "http://zzoon.github.io/insidejs" # the base hostname & protocol for your site
 twitter_username: zzoon
 github_username:  zzoon
