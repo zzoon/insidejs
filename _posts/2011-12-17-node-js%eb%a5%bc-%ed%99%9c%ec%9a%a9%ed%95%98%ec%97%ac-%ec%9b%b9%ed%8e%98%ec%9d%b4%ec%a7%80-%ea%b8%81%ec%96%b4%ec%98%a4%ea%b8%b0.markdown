@@ -85,7 +85,7 @@ app.get('/nodetube', function(req, res) {
     //I feel like I want to save my results in an array
 
     //Just a basic error check
-    if(err &amp;&amp; response.statusCode !== 200) {
+    if(err && response.statusCode !== 200) {
       console.log('Request error.');
     }
 
@@ -139,7 +139,7 @@ app.get('/nodetube', function(req, res) {
     //I feel like I want to save my results in an array
 
     //Just a basic error check
-    if (err &amp;&amp; response.statusCode !== 200) {
+    if (err && response.statusCode !== 200) {
       console.log('Request error.');
     }
 
