@@ -32,7 +32,7 @@ socket.io를 활용한 예제를 한 번더 살펴보도록 하겠다.
 
   io.sockets.on('connection', function(socket) {
     socket.on('data-changed', function(data) {
-	  console.log(&quot;data-changed received!&quot;);
+	  console.log("data-changed received!");
       socket.broadcast.emit('data-changed', {
 	  	index: data.index,
         vote: data.vote + 1
@@ -87,7 +87,7 @@ client 예제를 보자.
 
 {% highlight js %}
    // visualize 플러그인을 통해  html에 그대로 정의된 data를 바탕으로 그래프를 그린다.
-   $(&quot;#example&quot;).visualize({type: 'bar', width: '420px'}).trigger('visualizeRefresh');
+   $("#example").visualize({type: 'bar', width: '420px'}).trigger('visualizeRefresh');
 
 	var $opt_item;
 	var $opt_vote;
@@ -98,8 +98,8 @@ client 예제를 보자.
 	// 서버로부터 'data-changed' 이벤트를 받으면 다음 함수를 실행한다.
 	// 여기서는 vote값을 받아 해당 항목을 update하고 그래프를 refresh한다.
 	app_socket.on('data-changed', function(data) {
-		console.log(&quot;data changed!&quot;);
-		console.log(&quot;index:&quot; + data.index + &quot; vote : &quot; + data.vote);
+		console.log("data changed!");
+		console.log("index:" + data.index + " vote : " + data.vote);
 
 		$opt_arr[data.index].vote = data.vote;
 		$opt_arr[data.index].tr_item.innerText = data.vote;
@@ -129,8 +129,8 @@ client 예제를 보자.
 		// 해당 TD항목의 innerText값 ( 여기서는 vote 값이 된다. )
 		$opt_vote = $opt_item.find('td')[0].innerText;
 
-		console.log(&quot;Name : &quot; + $opt_name);
-		console.log(&quot;votes : &quot; + $opt_vote);
+		console.log("Name : " + $opt_name);
+		console.log("votes : " + $opt_vote);
 
 		// $opt_arr 배열의 i번째에 위에서 찾아낸 값을 가지는 object를 가리키도록 한다.
 		$opt_arr[i] = {
@@ -145,8 +145,8 @@ client 예제를 보자.
 		// click된 버튼의 id와 해당 항목의 vote값을 얻어낸다.
 		var clicked_id = event.currentTarget.id;
 		var vote_cnt = $opt_arr[clicked_id].vote;
-		console.log(clicked_id + &quot; clicked&quot;);
-		console.log(&quot;vote : &quot; + vote_cnt);
+		console.log(clicked_id + " clicked");
+		console.log("vote : " + vote_cnt);
 
 		// 'data-changed' 이벤트를 서버에 전송한다.
 		app_socket.emit('data-changed', {
