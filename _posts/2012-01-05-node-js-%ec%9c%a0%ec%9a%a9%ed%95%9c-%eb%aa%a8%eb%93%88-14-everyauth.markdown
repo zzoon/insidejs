@@ -6,7 +6,32 @@ date: '2012-01-05 01:56:34'
 
 <p style="margin-top: 0px;margin-right: 0px;margin-bottom: 1em;margin-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-align: -webkit-auto;text-indent: 0px;background-color: #ffffff;padding: 0px">원문 링크 - <a href="http://www.catonmat.net/blog/nodejs-modules-everyauth/">http://www.catonmat.net/blog/nodejs-modules-everyauth/</a></p>
 <p style="margin-top: 0px;margin-right: 0px;margin-bottom: 1em;margin-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-align: -webkit-auto;text-indent: 0px;background-color: #ffffff;padding: 0px"><a href="http://www.catonmat.net/blog/nodejs-modules-everyauth/"></a>본 게시글은 원저자의 허락을 얻어 번역한 것입니다.</p>
-<p style="margin-top: 0px;margin-right: 0px;margin-bottom: 1em;margin-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-align: -webkit-auto;text-indent: 0px;background-color: #ffffff;padding: 0px"><a href="http://nodejs-kr.org/insidejs/archives/609">1회 연재 - dnode (RPC 라이브러리)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/625">2회 연재 - optimist (옵션 파서)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/631">3회 연재 - lazy (lazy 리스트 처리)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/634">4회 연재 - request (HTTP 스트림 처리)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/638">5회 연재 - hashish (해시 처리)<br /></a><a href="http://nodejs-kr.org/insidejs/archives/653">6회 연재 - read (쉬운 표준 입력 처리)<br /></a><a href="http://nodejs-kr.org/insidejs/archives/661">7회 연재 - ntwitter (트위터 API)<br /></a><a href="http://nodejs-kr.org/insidejs/archives/704">8회 연재 - socket.io (웹소켓 통신)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/719">9회 연재 - redis (redis 클라이언트 라이브러리)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/745">10회 연재 - express (경량의 고속 웹 프레임워크)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/754">11회 연재 - semvar (버전 넘버링 처리)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/757">12회 연재 - cradle (고수준 CouchDB 클라이언트)</a> <br /><a href="http://nodejs-kr.org/insidejs/archives/760">13회 연재 - JSONStream (스트리밍 JSON 파서) </a></p>
+
+[1회 연재 - dnode (RPC 라이브러리)]({{ site.baseurl }}{% post_url 2011-12-09-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-1-dnode %})
+
+[2회 연재 - optimist (옵션 파서)]({{ site.baseurl }}{% post_url 2011-12-10-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-2-optimist %})
+
+[3회 연재 - lazy (lazy 리스트 처리)]({{ site.baseurl }}{% post_url 2011-12-13-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-3-lazy %})
+
+[4회 연재 - request (HTTP 스트림 처리)]({{ site.baseurl }}{% post_url 2011-12-13-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-4-request %})
+
+[5회 연재 - hashish (해시 처리)]({{ site.baseurl }}{% post_url 2011-12-14-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-5-hashish %})
+
+[6회 연재 - read (쉬운 표준 입력 처리)]({{ site.baseurl }}{% post_url 2011-12-15-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-6-read %})
+
+[7회 연재 - ntwitter (트위터 API)]({{ site.baseurl }}{% post_url 2011-12-16-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-7-ntwitter %})
+
+[8회 연재 - socket.io (웹소켓 통신)]({{ site.baseurl }}{% post_url 2011-12-18-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-8-socket-io %})
+
+[9회 연재 - redis (redis 클라이언트 라이브러리)]({{ site.baseurl }}{% post_url 2011-12-18-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-9-redis %})
+
+[10회 연재 - express (경량의 고속 웹 프레임워크)]({{ site.baseurl }}{% post_url 2011-12-20-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-10-express %})
+
+[11회 연재 - semvar (버전 넘버링 처리)]({{ site.baseurl }}{% post_url 2011-12-22-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-11-semvar %})
+
+[12회 연재 - cradle (고수준 CouchDB 클라이언트)]({{ site.baseurl }}{% post_url 2011-12-27-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-12-cradle %})
+
+[13회 연재 - JSONStream (스트리밍 JSON 파서)]({{ site.baseurl }}{% post_url 2011-12-27-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-13-jsonstream %})
 <p style="margin-top: 0px;margin-right: 0px;margin-bottom: 1em;margin-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-align: -webkit-auto;text-indent: 0px;background-color: #ffffff;padding: 0px;border: 0px initial initial">오늘 소개할 모듈은 <a href="https://github.com/bnoguchi">Brian Noguchi</a>가 만든 <a href="https://github.com/bnoguchi/everyauth">everyauth</a>다. everyauth는 <a href="http://senchalabs.github.com/connect/">connect</a> 모듈의 미들웨어로 사용되며 페이스북, 트위터, 구글 등과 같은 서비스의 인증을 처리하기 위하 사용된다.</p>
 <p style="margin-top: 0px;margin-right: 0px;margin-bottom: 1em;margin-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-align: -webkit-auto;text-indent: 0px;background-color: #ffffff;padding: 0px;border: 0px initial initial">다음은 이 모듈을 통해 로그인 처리를 할 수 있는 사이트 목록이다.</p>
 <div class="c" style="padding-top: 0px;padding-right: 0px;padding-bottom: 1em;padding-left: 0px;font-weight: normal;font-style: normal;font-size: 13px;font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;vertical-align: baseline;text-align: center;color: #222222;font-variant: normal;letter-spacing: normal;line-height: 20px;text-indent: 0px;background-color: #ffffff;margin: 0px;border: 0px initial initial">

@@ -135,10 +135,10 @@ App.init = function() {
   });
 
   App.draw = function(x, y, type) {
-    if (type === &quot;dragstart&quot;) {
+    if (type === "dragstart") {
       App.ctx.beginPath();
       return App.ctx.moveTo(x, y);
-    } else if (type === &quot;drag&quot;) {
+    } else if (type === "drag") {
       App.ctx.lineTo(x, y);
       return App.ctx.stroke();
     } else {
