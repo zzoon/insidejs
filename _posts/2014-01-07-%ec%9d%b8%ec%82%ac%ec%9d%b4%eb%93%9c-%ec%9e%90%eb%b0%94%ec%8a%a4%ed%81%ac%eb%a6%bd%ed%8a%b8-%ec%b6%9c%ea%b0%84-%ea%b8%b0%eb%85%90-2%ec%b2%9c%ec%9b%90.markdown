@@ -6,8 +6,6 @@ date: '2014-01-07 23:36:35'
 
 드디어 자바스크립트를 주제로 한 책을 출간하게 되었다.
 
-<!-- <a href="http://www.yes24.com/24/goods/11781589" target="_blank"><img class="aligncenter size-full wp-image-927" alt="사진" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2014/01/사진.jpg" width="313" height="400" /></a>
--->
 <a href="http://www.yes24.com/24/goods/11781589" target="_blank"> ![]({{ site.url }}/assets/book.jpg) </a>
 
 

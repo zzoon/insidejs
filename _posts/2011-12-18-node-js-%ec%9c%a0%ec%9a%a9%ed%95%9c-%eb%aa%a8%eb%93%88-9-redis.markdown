@@ -7,14 +7,23 @@ date: '2011-12-18 14:11:06'
 원문 링크 - <a href="http://www.catonmat.net/blog/nodejs-modules-redis/">http://www.catonmat.net/blog/nodejs-modules-redis/</a>
 
 본 문서는 저자의 허락을 얻어 해당 포스팅을 번역한 것입니다.
-<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; border-image: initial; font-weight: normal; font-style: normal; font-size: 13px; font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; vertical-align: baseline; color: #222222; font-variant: normal; letter-spacing: normal; line-height: 20px; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: #ffffff; padding: 0px; border: 0px initial initial;"><a href="http://nodejs-kr.org/insidejs/archives/609">1회 연재 - dnode (RPC 라이브러리)</a>
-<a href="http://nodejs-kr.org/insidejs/archives/625">2회 연재 - optimist (옵션 파서)</a>
-<a href="http://nodejs-kr.org/insidejs/archives/631">3회 연재 - lazy (lazy 리스트 처리)</a>
-<a href="http://nodejs-kr.org/insidejs/archives/634">4회 연재 - request (HTTP 스트림 처리)</a>
-<a href="http://nodejs-kr.org/insidejs/archives/638">5회 연재 - hashish (해시 처리)
-</a><a href="http://nodejs-kr.org/insidejs/archives/653">6회 연재 - read (쉬운 표준 입력 처리)
-</a><a href="http://nodejs-kr.org/insidejs/archives/661">7회 연재 - ntwitter (트위터 API)
-</a><a href="http://nodejs-kr.org/insidejs/archives/704">8회 연재 - socket.io (웹소켓 통신)</a></p>
+
+[1회 연재 - dnode (RPC 라이브러리)]({{ site.baseurl }}{% post_url 2011-12-09-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-1-dnode %})
+
+[2회 연재 - optimist (옵션 파서)]({{ site.baseurl }}{% post_url 2011-12-10-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-2-optimist %})
+
+[3회 연재 - lazy (lazy 리스트 처리)]({{ site.baseurl }}{% post_url 2011-12-13-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-3-lazy %})
+
+[4회 연재 - request (HTTP 스트림 처리)]({{ site.baseurl }}{% post_url 2011-12-13-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-4-request %})
+
+[5회 연재 - hashish (해시 처리)]({{ site.baseurl }}{% post_url 2011-12-14-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-5-hashish %})
+
+[6회 연재 - read (쉬운 표준 입력 처리)]({{ site.baseurl }}{% post_url 2011-12-15-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-6-read %})
+
+[7회 연재 - ntwitter (트위터 API)]({{ site.baseurl }}{% post_url 2011-12-16-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-7-ntwitter %})
+
+[8회 연재 - socket.io (웹소켓 통신)]({{ site.baseurl }}{% post_url 2011-12-18-node-js-%ec%9c%a0%ec%9a%a9%ed%95%9c-%eb%aa%a8%eb%93%88-8-socket-io %})
+
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; border-image: initial; font-weight: normal; font-style: normal; font-size: 13px; font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; vertical-align: baseline; color: #222222; font-variant: normal; letter-spacing: normal; line-height: 20px; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: #ffffff; padding: 0px; border: 0px initial initial;">오늘은 최고의 node.js Redis 클라이언트 API 라이브러리인 <a style="font-weight: inherit; font-style: inherit; font-size: 13px; font-family: inherit; vertical-align: baseline; text-decoration: none; padding: 0px; margin: 0px;" href="https://github.com/mranney/node_redis">node_redis</a> 모듈을 소개할 것이다. 이러한 Redis node.js 모듈은 <a style="font-weight: inherit; font-style: inherit; font-size: 13px; font-family: inherit; vertical-align: baseline; text-decoration: none; padding: 0px; margin: 0px;" href="http://ranney.com/">Matt Ranney</a>에 의해 작성됐다.</p>
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; border-image: initial; font-weight: normal; font-style: normal; font-size: 13px; font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; vertical-align: baseline; color: #222222; font-variant: normal; letter-spacing: normal; line-height: 20px; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: #ffffff; padding: 0px; border: 0px initial initial;">node_redis는 완벽한 node.js용 Redis 클라이언트 라이브러리다. 이 라이브러리는 실험적인 Redis 서버 브랜치에 추가된 EVAL과 같은 많은 명령어들을 포함하여 모든 Redis 명령어들을 지원한다.</p>
 <p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; border-image: initial; font-weight: normal; font-style: normal; font-size: 13px; font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; vertical-align: baseline; color: #222222; font-variant: normal; letter-spacing: normal; line-height: 20px; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: #ffffff; padding: 0px; border: 0px initial initial;">다음은 redis 라이브러리 이용한 예제이다.</p>
