@@ -10,10 +10,18 @@ date: '2011-12-08 00:15:25'
 <blockquote>[역자주: 미들웨어는 DB의 특정 동작이 처리되기 전에 중간 레벨에서 실행되는 로직이라고 생각하면 쉬울 것 같다. 가령, 데이터를 저장하기 전에 무결성을 검사한다거나 또는 삭제하기전에 관련된 리소스 사용 체크 같은 것을 처리하는데 사용되지 않나 싶다.]</blockquote>
 <p>미들웨어는 직렬과 병렬 두가지 타입이 있다.</p>
 <p>직렬 미들웨어는 다음과 같이 정의 된다:</p>
-<p>[code lang="js"] schema.pre('save', function (next) {   // ... }) [/code]</p>
+
+{% highlight js %}
+schema.pre('save', function (next) {   // ... });
+{% endhighlight %}
+
 <p>이러한 형식의 미들웨어는 각각의 미들웨어가 next를 호출할 때 하나씩 순차적으로 실행된다.</p>
 <p>병렬 미들웨어는 더 정교한 흐름 제어를 기능을 제공하며, 다음과 같이 정의된다.</p>
-<p>[code lang="js"] schema.pre('remove', true, function (next, done) {   // ... }) [/code]</p>
+
+{% highlight js %}
+schema.pre('remove', true, function (next, done) {   // ... });
+{% endhighlight %}
+
 <p>병렬 미들웨어는 즉시 next() 함수를 호출할 수 있다. 그러나 마지막 인자는 모든 병렬 미들웨어가 done()를 호출한 다음에 실행될 것이다.</p>
 <h3>사용 예</h3>
 <p>미들웨어는 다음과 같은 경우 유용하다.</p>
@@ -34,6 +42,17 @@ date: '2011-12-08 00:15:25'
 <h3>에러 처리</h3>
 <p>만약 어떤 미들웨어가 Error 인스턴스와 함께 next나 done을 호출한다면, 그 흐름은 중단되고 에러는 콜백으로 전달된다.</p>
 <p>예를 들면:</p>
-<p>[code lang="js"] schema.pre('save', function (next) {     // something goes wrong     next(new Error('something went wrong')); });</p>
-<p>// later...</p>
-<p>myModel.save(function (err) {     // err can come from a middleware }); [/code]</p>
+
+{% highlight js %}
+schema.pre('save', function (next) {
+  // something goes wrong
+  next(new Error('something went wrong'));
+});
+
+// later...
+myModel.save(function (err) {
+  // err can come from a middleware
+});
+
+{% endhighlight %}
+
