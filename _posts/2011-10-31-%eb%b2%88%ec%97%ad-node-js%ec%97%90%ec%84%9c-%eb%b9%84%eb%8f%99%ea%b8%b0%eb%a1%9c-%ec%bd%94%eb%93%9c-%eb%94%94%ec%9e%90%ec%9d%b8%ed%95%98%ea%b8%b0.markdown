@@ -18,45 +18,39 @@ node.js로 작업을 하려면, 비동기 프로그래밍이 어떻게 동작하
 
 다음 예제는 동기 I/O 방식을 어떻게 비동기 I/O로 바꾸는 지를 보여준다. 동시에, 콜백 함수가 어떻게 사용되는지에 대해서도 보여준다. 예제는 현재 디렉토리의 파일을 읽고, 파일명을 콘솔에 출력하고, 현재 프로세스의 아이디를 읽는다.
 
-&lt;동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 동기 코드
+{% highlight js %}
 var fs = require('fs'),
     filenames,
     i,
     processId;
 
-filenames = fs.readdirSync(&quot;.&quot;); 
-for (i = 0; i &lt; filenames.length; i++) {
+filenames = fs.readdirSync("."); 
+for (i = 0; i < filenames.length; i++) {
      console.log(filenames[i]);
 }
-console.log(&quot;Ready.&quot;);
+console.log("Ready.");
 
 processId = process.getuid();
-
-[/sourcecode]
+{% endhighlight %}
 
 이 동기 예제에서 CPU는 fs.readdirSync() I/O 작업이 완료될 때까지 기다린다. 비동기로 작성하려면 이 부분이 변경되어야 한다. 아래 비동기 버전에서는 fs.readdir()을 호출했다. 이는 fs.readdirSync()와 같지만 두번째 인자로 콜백함수를 받는다.
 
-&lt;비동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 비동기 코드
+{% highlight js %}
 var fs = require('fs'),
     processId;
 
-fs.readdir(&quot;.&quot;, function (err, filenames) {
+fs.readdir(".", function (err, filenames) {
      var i;
-     for (i = 0; i &lt; filenames.length; i++) {
+     for (i = 0; i < filenames.length; i++) {
          console.log(filenames[i]);
      }
-     console.log(&quot;Ready.&quot;);
+     console.log("Ready.");
 });
 
 processId = process.getuid();
-
-[/sourcecode]
+{% endhighlight %}
 
 콜백함수 패턴을 사용하는 룰은 다음과 같다.
 
@@ -68,35 +62,30 @@ processId = process.getuid();
 <p style="font-size: 18px;"><strong>시퀀스 (Sequence)</strong></p>
 동기 코드의 표준적인 패턴은 선형의 시퀀스(linear sequence)라고 볼 수 있다. 각각의 라인은 이전 라인의 결과에 영향을 받으므로 하나씩 차례대로 실행된다. 다음에 나오는 예제는 먼저 파일의 접근 모드를 변경하고 파일명을 변경한 후, 그 파일이 심볼릭 링크인지 체크한다. 분명히 이 코드는 순서가 어긋나면 동작할 수 없다. 아니면, 파일명은 접근모드가 변경되기 전에 변경되거나, 파일명이 변경되기 전에 심볼릭 링크인지 체크할 수도 있다. 물론 둘 다 에러다. 순서가 반드시 보장되어야 한다.
 
-&lt;동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 동기 코드
+{% highlight js %}
 var fs = require('fs'),
     oldFilename,
     newFilename,
     isSymLink;
 
-oldFilename = &quot;./processId.txt&quot;;
-newFilename = &quot;./processIdOld.txt&quot;;
+oldFilename = "./processId.txt";
+newFilename = "./processIdOld.txt";
 
 fs.chmodSync(oldFilename, 777);
 fs.renameSync(oldFilename, newFilename);
 
 isSymLink = fs.lstatSync(newFilename).isSymbolicLink();
+{% endhighlight %}
 
-[/sourcecode]
-
-&lt;비동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 비동기 코드
+{% highlight js %}
 var fs = require('fs'),
     oldFilename,
     newFilename;
 
-oldFilename = &quot;./processId.txt&quot;;
-newFilename = &quot;./processIdOld.txt&quot;;
+oldFilename = "./processId.txt";
+newFilename = "./processIdOld.txt";
 
 fs.chmod(oldFilename, 777, function (err) {
      fs.rename(oldFilename, newFilename, function (err) {
@@ -105,8 +94,7 @@ fs.chmod(oldFilename, 777, function (err) {
          });
      });
 });
-
-[/sourcecode]
+{% endhighlight %}
 
 비동기 코드에서 이 시퀀스를 중첩 콜백(nested callback)을 통해 구현하였다. 이 예제에서 fs.lstat() 콜백은 fs.rename() 콜백 안에 중첩되고, fs.rename()은 fs.chmod() 콜백안에 중첩되었다.
 <p style="font-size: 18px;"><strong>병렬화 ( Parallelisation )</strong></p>
@@ -116,10 +104,8 @@ fs.chmod(oldFilename, 777, function (err) {
 
 여기서 필요한 단 한가지는 총합을 구하는 작업이 완료되었는지를 알 수 있는 기준을 가지고 있어야 한다는 것이다.
 
-&lt;동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 동기 코드
+{% highlight js %}
 var fs = require('fs');
 
 function calculateByteSize() {
@@ -128,9 +114,9 @@ function calculateByteSize() {
          filenames,
          stats;
 
-     filenames = fs.readdirSync(&quot;.&quot;);
-     for (i = 0; i &lt; filenames.length; i ++) {
-         stats = fs.statSync(&quot;./&quot; + filenames[i]);
+     filenames = fs.readdirSync(".");
+     for (i = 0; i < filenames.length; i ++) {
+         stats = fs.statSync("./" + filenames[i]);
          totalBytes += stats.size;
      }
   
@@ -138,27 +124,24 @@ function calculateByteSize() {
 }
 
 calculateByteSize();
-
-[/sourcecode]
+{% endhighlight %}
 
 동기 코드는 간단하다.
 
-&lt;비동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 비동기 코드
+{% highlight js %}
 var fs = require('fs');
 
 var count = 0,
     totalBytes = 0;
 
 function calculateByteSize() {
-     fs.readdir(&quot;.&quot;, function (err, filenames) {
+     fs.readdir(".", function (err, filenames) {
          var i;
          count = filenames.length;
 
-         for (i = 0; i &lt; filenames.length; i++) {
-             fs.stat(&quot;./&quot; + filenames[i], function (err, stats) {
+         for (i = 0; i < filenames.length; i++) {
+             fs.stat("./" + filenames[i], function (err, stats) {
                  totalBytes += stats.size;
                  count--;
                  if (count === 0) {
@@ -170,8 +153,7 @@ function calculateByteSize() {
 }
 
 calculateByteSize();
-
-[/sourcecode]
+{% endhighlight %}
 
 비동기 코드는 먼저 fs.readdir()을 호출하고 디렉토리의 파일명을 읽어들인다. 그리고 각각의 파일에 대해서 호출되는 콜백함수 안에서 fs.stat()을 호출한다. 여기까지는 예상대로다.
 
@@ -185,33 +167,28 @@ calculateByteSize();
 
 다음의 동기 예제에서는 주어진 디렉토리안의 파일 갯수를 리턴하는 countFiles()가 구현되어 있다. countFiles()는 파일의 갯수를 파악하기 위해 fs.readdirSync()라는 I/O 작업을 수행한다. countFiles()는 서로 다른 두가지의 인자를 넘기면서 호출된다.
 
-&lt;동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 동기 코드
+{% highlight js %}
 var fs = require('fs');
 
-var path1 = &quot;./&quot;,
-    path2 = &quot;.././&quot;;
+var path1 = "./",
+    path2 = ".././";
 
 function countFiles(path) {
      var filenames = fs.readdirSync(path);
      return filenames.length;
 }
 
-console.log(countFiles(path1) + &quot; files in &quot; + path1);
-console.log(countFiles(path2) + &quot; files in &quot; + path2);
+console.log(countFiles(path1) + " files in " + path1);
+console.log(countFiles(path2) + " files in " + path2);
+{% endhighlight %}
 
-[/sourcecode]
-
-&lt;비동기 코드&gt;
-
-[sourcecode language="javascript"]
-
+- 비동기 코드
+{% highlight js %}
 var fs = require('fs');
 
-var path1 = &quot;./&quot;,
-    path2 = &quot;.././&quot;,
+var path1 = "./",
+    path2 = ".././",
     logCount;
 
 function countFiles(path, callback) {
@@ -221,12 +198,11 @@ function countFiles(path, callback) {
 }
 
 logCount = function (err, path, count) {
-     console.log(count + &quot; files in &quot; + path);
+     console.log(count + " files in " + path);
 };
 
 countFiles(path1, logCount); countFiles(path2, logCount);
-
-[/sourcecode]
+{% endhighlight %}
 
 fs.readdirSync()를 비동기 함수인 fs.readdir()로 대체하면 그것을 감싸고 있는 countFiles() 역시 비동기가 된다. countFiles()가 콜백 함수의 결과 값에 영향을 받기 때문에, 결국 결과값은 fs.readdir()이 완료된 이후에 얻을 수 있다. 그래서 countFiles()의 구조를 콜백을 수용할 수 있도록 바꿀 필요가 있다.
 
