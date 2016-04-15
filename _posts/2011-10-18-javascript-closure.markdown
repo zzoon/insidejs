@@ -34,29 +34,26 @@ date: '2011-10-18 02:18:27'
 <p style="font-size: 14px">함수 선언이나 함수 표현식에 의해 생성되는 함수 객체는 이 함수 객체의 실행 컨텍스트 안에서 스코프 체인을 가지고 [[scope]] 프로퍼티에 할당된다.</p>
 <p style="font-size: 14px">전역 함수 선언의 간단한 예</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function exampleFunction(formalParameter){
     ...   // function body code
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">이 예제에서 함수 객체는 전역 실행 컨텍스트 내에서 변수가 생성될 때 만들어진다. 전역 실행 컨텍스트는 오로지 전역객체 만을 가지는 스코프 체인을 가진다. 그리고, "exampleFunction"이라는 이름으로서 전역객체의 프로퍼티로 참조되고, [[scope]] 프로퍼티에 할당된다.</p>
 <p style="font-size: 14px">함수 표현식이 전역 컨텍스트에서 실행될 때 비슷한 스코프 체인이 할당되는 예제</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 var exampleFuncRef = function(){
     ...   // function body code
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">전역 실행 컨텍스트에서 변수 생성 시, 전역객체의 한 이름있는 프로퍼티(exampleFuncRef)가 생성되고, 이에 대한 참조가 해당 프로퍼티에 할당되는데, 할당 표현식이 실행되기 전까지는 함수 객체가 생성되지 않는다. ( 역자. 이 때는 undefined가 exampleFuncRef에 할당될 것이다.)그러나, 할당 표현식이 실행되면, 함수 객체가 전역 실행 컨텍스트 안에서 생성되고, 생성된 함수객체의 [[scope]]프로퍼티는 전역 객체만을 가지는 스코프 체인이 할당된다.</p>
 <p style="font-size: 14px">내부함수 선언과 표현식은 해당 함수(외부함수)의 실행컨텍스트 안에서 생성되고, 보다 정교한 스코프 체인을 가진다.
 내부함수를 선언한 후 외부함수를 실행시키는 다음의 코드를 보자.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function exampleOuterFunction(formalParameter){
     function exampleInnerFuncitonDec(){
         ... // inner function body
@@ -65,16 +62,15 @@ function exampleOuterFunction(formalParameter){
 }
 
 exampleOuterFunction( 5 );
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">외부함수 객체는 전역 실행 컨텍스트안에서 변수 생성 시, 만들어진다. 이 객체의 [[scope]]프로퍼티는 전역객체만을 가지는 스코프 체인을 가진다.</p>
 <p style="font-size: 14px">전역 코드가 실행되면서 exampleOuterFunction을 호출하면, 새 실행 컨텍스트가 생성되고, 이에 따라 활성화/변수 객체가 생성된다. 새 실행 컨텍스트의 스코프는 새로운 활성화 객체를 포함하는데, 이 활성화 객체에는 외부 함수의 [[scope]]에 의해 참조되는 체인에 추가된다. 새로운 실행 컨텍스트에서 변수 생성을 하면, 내부 함수 객체가 생성되고, 이 객체의 [[scope]]프로퍼티는 해당 실행 컨텍스트의 스코프가 할당된다. 이 내부의 활성화 객체를 포함하는 스코프 체인은 전역 객체와 연결된다.</p>
 <p style="font-size: 14px">지금까지는 모두 소스 코드의 구조와 실행을 통해 자동으로 제어되었다. 실행 컨텍스트의 스코프 체인은 새롭게 생성되는 함수객체의 [[scope]] 프로퍼티를 정의하고, 이 [[scope]] 프로퍼티는 해당 함수의 실행컨텍스트의 스코프를 (활성화 객체와 함께) 정의한다. 그런데, ECMAScript에서는 이러한 스코프 체인을 수정하기 위한 with 구문을 제공한다.</p>
 <p style="font-size: 14px">with 구문은 표현식을 실행하는데, 표현식이 객체이면 객체는 현재 실행 컨텍스트의 스코프 체인에 추가된다( 활성화 객체의 바로 앞에). with 구문은 다른 구문(블록 구문일수도 있음)을 실행하고 실행 컨텍스트의 스코프 체인을 전에 있던 곳에 저장한다.</p>
 <p style="font-size: 14px">함수 선언은 with 구문의 영향을 받지 않고, 함수 객체가 생성되지만, 함수 표현식은 안에서 with 구문과 함께 실행될 수 있다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 /* create a global variable - y - that refers to an object:- */
 var y = {x:5}; // object literal with an - x - property
 function exampleFuncWith(){
@@ -97,8 +93,8 @@ function exampleFuncWith(){
 
 /* execute the - exampleFuncWith - function:- */
 exampleFuncWith();
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">exampleFuncWith 함수가 호출되면 실행 컨텍스트는 전역객체를 따라가는 활성화객체를 포함하는 스코프 체인을 가진다. with 구문의 실행은 전역 변수 y에 의해 참조되는 객체를 함수 표현식이 실행되는 동안 스코프 체인의 맨앞에 추가한다. 새롭게 생성되는 함수 객체는 [[scope]]프로퍼티에 추가된다. y객체를 포함하는 스코프체인은 외부함수 호출시의 실행컨텍스트의 활성화 객체를 따라간다.</p>
 <p style="font-size: 14px">with 구문안의 블록 구문이 종료되면, 실행 컨텍스트의 스코프는 저장된다.(y객체는 제거된다). 하지만 이때 함수 객체는 만들어졌고, 이것의 [[scope]] 프로퍼티는 y객체를 처음 요소로 가지는 스코프 체인을 참조한다.</p>
 <p style="font-size: 18px"><strong>식별자 인식 (identifier resolution)</strong></p>
@@ -114,7 +110,7 @@ exampleFuncWith();
 <p style="font-size: 14px">클로져는 함수 호출을 통해 실행 컨텍스트 안에서 만들어진 함수객체가 반환될 때 만들어진다. 이 함수 호출시 내부 객체에 대한 참조가 또다른 객체의 프로퍼티에 할당된다.
 혹은 직접적으로 이 함수 객체에 대한 참조를 할당함으로써 만들 수 있는데, 예를 들면, 전역 변수(즉, 전역적으로 접근 가능한 객체의 프로퍼티)나, 외부함수 호출시의 인자에 대한 참조를 넘겨받은 객체를 들 수 있다.</p>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function exampleClosureForm(arg1, arg2){
     var localVar = 8;
     function exampleReturned(innerArg){
@@ -127,8 +123,8 @@ function exampleClosureForm(arg1, arg2){
 }
 
 var globalVar = exampleClosureForm(2, 4);
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">위 예제에서는 exampleClosureForm 함수를 호출하면서 생기는 실행 컨텍스안에서 함수 객체가 생성된다. 그리고 이는 가비지 컬렉션의 대상이 될 수 없다. 왜냐하면 전역 변수(globalVar)에 의해 참조되므로 여전히 접근 가능하기 때문이다. 이것은 globalVar(n)의 형태로 실행될 수 있다.</p>
 <p style="font-size: 14px">하지만 이 예제에는 좀 더 복잡한 것이 있다. globalVar에 의해 참조되는 함수 객체는 [[scope]]프로퍼티와 함께 만들어졌다. 이 [[scope]]프로퍼티는 앞에서 설명한 대로, 해당 실행 컨텍스트에 속하는 활성화/변수 객체를 가지고 있다. 즉, 이 활성화/변수 객체 역시 가비지 컬렉션의 대상이 되지 않는다. globalVar를 통해 함수를 실행하면, 이 [[scope]] 프로퍼티에 전체 스코프 체인을 추가하게 된다.</p>
 <p style="font-size: 14px">클로져는 이렇게 만들어진다. 내부 함수 객체는 변수를 가지고 있는데, 스코프 체인에 있는 활성화/변수 객체는 이 변수들에 바인딩된 환경이라고 할 수 있다.</p>
@@ -136,16 +132,17 @@ var globalVar = exampleClosureForm(2, 4);
 <p style="font-size: 14px">위 예제에서는 exampleClosureForm 함수가 실행이 끝나 반환되지만, 활성화/변수 객체는 인자와 내부함수의 정의 및 지역 변수를 가지고 있다. arg1은 2, arg2는 4, localVar는 8, 그리고 exampleReturned는 내부 함수 객체에 대한 참조를 가지고 있다.</p>
 <p style="font-size: 14px">만약, exampleClosureForm을 아래와 같이 다시 호출한다면,</p>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var secondGlobalVar = exampleClosureForm(12, 3);
-[/sourcecode]
+{% endhighlight %}
+
 <p style="font-size: 14px">새로운 실행 컨텍스트가 실행되고, 따라서 새로운 활성화 객체(편의상 "ActOuter2") 역시 만들어진다. 새로운 함수 객체가 자신의 [[scope]]와 arg1-12, arg2 -3와 함께 반환될 것이다.</p>
 <p style="font-size: 14px">두번째로 또다른 클로져가 만들어졌다.</p>
 <p style="font-size: 14px">두개의 함수 객체가 exampleClosureForm을 실행하면서 만들어졌는데, 각각 globalVar와 secondGlobalVar에 할당되었다. 이 두객체의 각 4개의 식별자(((arg1 + arg2)/(innerArg + localVar)))를 어떻게 인식하는지를 이해하는 것은 클로자의 값을 사용하는 데 있어서 매우 중요하다.</p>
-<p style="font-size: 14px">globalVar(2)를 실행했다고 생각해보자. 새로운 실행컨텍스트와 활성화 객체(편의상 "ActInner1"로 호칭)가 만들어지고 이는 [[scope]]프로퍼티가 가리키는 스코프체인의 첫번째 요소로 삽입된다. 이 실행 컨텍스트의 스코프체인은 다음과 같다 : ActInner1-&gt; ActOuter1-&gt; 전역객체</p>
+<p style="font-size: 14px">globalVar(2)를 실행했다고 생각해보자. 새로운 실행컨텍스트와 활성화 객체(편의상 "ActInner1"로 호칭)가 만들어지고 이는 [[scope]]프로퍼티가 가리키는 스코프체인의 첫번째 요소로 삽입된다. 이 실행 컨텍스트의 스코프체인은 다음과 같다 : ActInner1-> ActOuter1-> 전역객체</p>
 <p style="font-size: 14px">식별자 인식은 이 스코프 체인을 통해 이루어진다. ((arg1 + arg2)/(innerArg + localVar)) 의 값들은 스코프 체인의 각 객체를 찾아보고 결정된다.</p>
 <p style="font-size: 14px">체인의 첫번째 객체는 ActInner1이고 innerArg-2를 가지고 있다. 나머지 3개의 식별자는 ActOuter가 가지고 있고, 값은 arg1-2, arg2-4, localVar-8 이 된다. 결국 ((2+4)/(2+8)) 이 된다.</p>
-<p style="font-size: 14px">secondGlobalVar(5)를 실행한 것과 위를 비교해 보자. 위와 마찬가지 방식으로 새로운 활성화 객체(편의상 "ActInner2")가 만들어지고, 해당 실행 컨텍스트의 스코프체인은 다음과 같다 : ActInner2-&gt; ActOuter2-&gt; 전역 객체</p>
+<p style="font-size: 14px">secondGlobalVar(5)를 실행한 것과 위를 비교해 보자. 위와 마찬가지 방식으로 새로운 활성화 객체(편의상 "ActInner2")가 만들어지고, 해당 실행 컨텍스트의 스코프체인은 다음과 같다 : ActInner2-> ActOuter2-> 전역 객체</p>
 <p style="font-size: 14px">ActInner2는 innerArg-5를 가지고 있고, ActOuter2는 arg1-12, arg2-3, localVar-8을 가진다. 결국 ((12 + 3)/(5 + 8)) 이 된다.</p>
 <p style="font-size: 18px"><strong>클로저로 무엇을 할 수 있는가?</strong></p>
 <p style="font-size: 14px"><strong>예제 1: 함수 참조를 통한 setTimeout</strong></p>
@@ -154,8 +151,7 @@ var secondGlobalVar = exampleClosureForm(12, 3);
 <p style="font-size: 14px">setTimeout은 첫번째 인자로 넘겨지는 함수(혹은 자바스크립트 코드를 담은 문자열)의 실행에 대한 스케쥴링을 하는데, 두번째 인자인 밀리초 단위의 숫자만큼의 간격으로 함수를 호출한다. setTimeout을 통해 자신의 코드를 호출하고 싶다면 첫번째 인자로 해당 함수 객체의 참조를 넘겨주면 되지만, 이것으로는 실제 실행될 때, 함수에 인자를 줄 수 없다.</p>
 <p style="font-size: 14px">그러나, 내부함수 객체의 참조를 반환받는 또다른 함수를 호출할 수도 있다. 이때, 인자는 내부함수(결국 자신을 반환하는)를 실행할 때 같이 넘겨진다. setTimeout은 내부함수를 인자없이 호출하지만, 이 내부함수는 여전히 외부함수 호출 때 제공되었던 인자에 접근할 수 있다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function callLater(paramA, paramB, paramC){
     /* Return a reference to an anonymous inner function created
        with a function expression:-
@@ -177,13 +173,13 @@ function callLater(paramA, paramB, paramC){
    arguments to the outer function. The returned reference to the inner
    function object is assigned to a local variable:-
 */
-var functRef = callLater(elStyle, &quot;display&quot;, &quot;none&quot;);
+var functRef = callLater(elStyle, "display", "none");
 /* Call the setTimeout function, passing the reference to the inner
    function assigned to the - functRef - variable as the first argument:-
 */
 hideMenu=setTimeout(functRef, 500);
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px"><strong>예제 2: 함수와 객체 인스턴스 메소드 연결 ( Associating Functions with Object Instance Methods )</strong></p>
 <p style="font-size: 14px">미래의 어떤 시점에서 실행될 함수가 알맞은 인자를 넘겨받기 위해 함수 객체에 대한 참조를 다른 변수에 할당해야 되는 경우가 많이 있다.</p>
 <p style="font-size: 14px">예를 들면, 특정 DOM 요소와의 상호작용을 캡슐화하도록 디자인되어 있는 객체가 있다고 하자.
@@ -192,8 +188,7 @@ hideMenu=setTimeout(functRef, 500);
 <p style="font-size: 14px">아래 예제는 객체 인스턴스와 요소 이벤트 핸들러와 관계를 맺는 함수들을 바탕으로한 작고 일반적인 클로저를 사용한다.
 객체 인스턴스의 특정 메소드(이벤트 핸들러)가 호출될 때, 이벤트 객체와 관계된 요소에 대한 참조를 넘겨받고, 리턴값을 반환한다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 /* A general function that associates an object instance with an event
    handler. The returned inner function is used as the event handler.
    The object instance is passed as the - obj - parameter and the name
@@ -254,9 +249,9 @@ function DhtmlObject(elementId){
            javascript object when it is executed in response to
            events:-
         */
-        el.onclick = associateObjWithEvent(this, &quot;doOnClick&quot;);
-        el.onmouseover = associateObjWithEvent(this, &quot;doMouseOver&quot;);
-        el.onmouseout = associateObjWithEvent(this, &quot;doMouseOut&quot;);
+        el.onclick = associateObjWithEvent(this, "doOnClick");
+        el.onmouseover = associateObjWithEvent(this, "doMouseOver");
+        el.onmouseout = associateObjWithEvent(this, "doMouseOut");
         ...
     }
 }
@@ -269,8 +264,8 @@ DhtmlObject.prototype.doMouseOver = function(event, element){
 DhtmlObject.prototype.doMouseOut = function(event, element){
     ... // doMouseOut method body.
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">위 예제에서 DhtmlObject의 어떤 인스턴스도 필요한 DOM요소와 관계를 가질 수 있다. 게다가 이 인스턴스들은 어떻게 다른 코드에 사용되는지 알 필요가 없고, 전역 네임스페이스에 영향을 주거나, 다른 인스턴스와의 충돌도 발생하지 않는다.</p>
 <p style="font-size: 14px"><strong>예제3: 관계된 함수의 캡슐화 ( Encapsulating Related Functionality )</strong></p>
 <p style="font-size: 14px">클로저는 다른 관계된 혹은 종속적인 그룹들에 사용되는, 추가적인 스코프를 생성하는 데 사용될 수 있다.</p>
@@ -282,8 +277,7 @@ DhtmlObject.prototype.doMouseOut = function(event, element){
 <p style="font-size: 14px">아래 코드에서 HTML 문자열(대부분이 "constant"인)을 반환하는 함수를 만든다. 이 문자열은 함수 호출 시 인자로 제공되는 값들이 중간중간에 배치되면서 최종 문자열을 만들게 된다.</p>
 <p style="font-size: 14px">내부 함수에 대한 참조는 함수 표현식에 대한 인라인 실행을 통해 반환되고 전역변수에 할당되어 전역 함수에서 호출될 수 있게 된다. 버퍼 배열은 외부 함수 표현식에 지역변수로 선언된다. 이는 전역 네임스페이스에 노출되지 않음을 의미하고 함수가 호출될 때마다 재생성될 필요가 없다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 /* A global variable - getImgInPositionedDivHtml - is declared and
    assigned the value of an inner function expression returned from
    a one-time call to an outer function expression.
@@ -303,9 +297,9 @@ var getImgInPositionedDivHtml = (function(){
        be inserted into the Array by the inner function:-
     */
     var buffAr = [
-        '&lt;div id=&quot;',
+        '<div id="',
         '',   //index 1, DIV ID attribute
-        '&quot; style=&quot;position:absolute;top:',
+        '" style="position:absolute;top:',
         '',   //index 3, DIV top position
         'px;left:',
         '',   //index 5, DIV left position
@@ -313,15 +307,15 @@ var getImgInPositionedDivHtml = (function(){
         '',   //index 7, DIV width
         'px;height:',
         '',   //index 9, DIV height
-        'px;overflow:hidden;\&quot;&gt;&lt;img src=\&quot;',
+        'px;overflow:hidden;\"><img src=\"',
         '',   //index 11, IMG URL
-        '\&quot; width=\&quot;',
+        '\" width=\"',
         '',   //index 13, IMG width
-        '\&quot; height=\&quot;',
+        '\" height=\"',
         '',   //index 15, IMG height
-        '\&quot; alt=\&quot;',
+        '\" alt=\"',
         '',   //index 17, IMG alt text
-        '\&quot;&gt;&lt;\/div&gt;'
+        '\"><\/div>'
     ];
     /* Return the inner function object that is the result of the
        evaluation of a function expression. It is this inner function
@@ -347,8 +341,8 @@ var getImgInPositionedDivHtml = (function(){
     }); //:End of inner function expression.
 })();
 /*^^- :The inline execution of the outer function expression. */
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">하나의 함수가 다른 함수들에 종속적일 때, 다른 코드에 직접적으로 사용되길 원하지 않는다면 위와 같은 방법을 이용할 수 있다.
 복잡하게 많은 함수를 만들지 말고, 간단하게 이식가능하고 캡슐화된 코딩을 하도록 하자.</p>
 <p style="font-size: 14px">잘못된 클로저 사용
@@ -357,8 +351,7 @@ var getImgInPositionedDivHtml = (function(){
 <p style="font-size: 14px">일반적인 상황중 하나가 내부함수를 DOM요소의 이벤트 핸들러로 사용하는 것이다.
 아래 예제는 link 요소에 대한 onclick 이벤트의 핸들러를 추가하는 코드이다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 /* Define the global variable that is to have its value added to the
    - href - of a link as a query string by the following function:-
 */
@@ -390,13 +383,12 @@ function addGlobalQueryOnClick(linkRef){
         };
     }
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">addGlobalQueryOnClick 함수를 호출할 때마다 새로운 내부 함수 및 클로저가 생성된다. 효율성의 관점에서 보았을 때 이 함수가 한두번 호출된다면 큰 문제가 되지 않지만, 다른 많은 함수에 의해 사용되게 되면 문제가 될 것이다.</p>
 <p style="font-size: 14px">위 코드는 내부함수가 함수 외부에서 접근 가능하다는 사실의 잇점을 활용한 코드가 아니다. 이벤트 핸들러로서 사용될 함수를 개별적으로 정의하고 그 참조를 이벤트 핸들링 프로퍼티에 할당하면 위 코드와 정확히 같은 결과를 얻을 것이다. 게다가, 단 하나의 함수 객체가 만들어질 것이며, 이 이벤트 핸드러를 사용하는 모든 요소들은 하나의 함수 객체에 대한 참조를 공유할 것이다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 /* Define the global variable that is to have its value added to the
    - href - of a link as a query string by the following function:-
 */
@@ -429,13 +421,12 @@ function forAddQueryOnClick(){
     this.href += ('?quantaty='+escape(quantaty));
     return true;
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">첫번째 코드의 내부함수는 클로저를 활용하기 위해 사용되지 않는다. 차라리 내부함수를 사용하지 않는 것이 더 효율적일 것이고, 함수 객체를 반복적으로 생성하지 않을 것이다.</p>
 <p style="font-size: 14px">비슷한 예로 생성자 함수를 생각해 보자. 아래와 같은 스켈레톤 생성자 코드는 어렵지 않게 볼 수 있는 코드다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function ExampleConst(param){
     /* Create methods of the object by evaluating function expressions
        and assigning references to the resulting function objects
@@ -454,13 +445,12 @@ function ExampleConst(param){
     */
     this.publicProp = param;
 }
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 14px">new ExampleConst(n) 을 통해 객체를 생성할 때마다 새로운 함수 객체의 set이 만들어 진다. 객체 인스턴스를 생성하면 할 수록 이와 함께 함수 객체도 많이 만들어질 것이다.</p>
 <p style="font-size: 14px">이러한 경우 함수 객체를 한 번 만들고 이에 대한 참조를 생성자의 prototype의 프로퍼티에 할당하면 보다 효율적인 코드가 될 수 있다. 생성자에 의해 생성되는 모든 객체에 의해 이 함수들이 공유될 것이기 때문이다.</p>
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function ExampleConst(param){
     /* Assign the constructor's parameter to a property of the object:-
     */
@@ -479,12 +469,12 @@ ExampleConst.prototype.method2 = function(){
 ExampleConst.prototype.method3 = function(){
     ... // method body.
 };
+{% endhighlight %}
 
-[/sourcecode]
 <p style="font-size: 18px"><strong>인터넷 익스플로러 메모리 누수 문제</strong></p>
 <p style="font-size: 14px">인터넷 익스플로러 웹브라우저 (버전 4에서 6)는 가비지 컬렉션 시스템에서 결함을 가지고 있다. 호스트 객체들이 원형적으로 참조를 가지게 되면 가비지 컬렉션이 되지 않는다. 문제의 호스트 객체는 DOM 노드와 ActiveX 객체들이다. 원형 참조가 형성되면 관계된 모든 객체는 브라우저가 종료될 때까지 자원이 해제되지 않는다.</p>
 <p style="font-size: 14px">원형 참조는 두개 이상의 객체가 서로를 참조하면 발생하게 된다. 객체 1이 객체 2를 참조하고 객체 2가 객체3을 참조하고, 객체 3이 다시 객체 1을 참조하게 되는 경우를 말한다. ECMAScript에서는 이것들도 가비지 컬렉션의 대상이 된다. 하지만 인터넷 익스플로러의 가비지 컬렉션 시스템은 DOM 노드나 activeX객체들에 이런 원형 참조가 형성되면 이를 알아차리지 못하고, 계속 메모리에 상주하게 된다.</p>
-<p style="font-size: 14px">클로저는 원형참조가 쉽게 형성이 된다. 클로저를 만드는 함수 객체가 할당이 되면, 이를테면 DOM노드의 이벤트 핸들러로서 할당이 되면, 그 노드의 참조는 해당 스코프 체인의 활성화/변수 객체에 할당된다. 이렇게 되면 원형 참조가 형성되는 것이다. ( DOM_node.onevent -&gt; function_obj.[[scope]] -&gt; scope_chain -&gt; Activation_obj.nodeRef -&gt; DOM_node )
+<p style="font-size: 14px">클로저는 원형참조가 쉽게 형성이 된다. 클로저를 만드는 함수 객체가 할당이 되면, 이를테면 DOM노드의 이벤트 핸들러로서 할당이 되면, 그 노드의 참조는 해당 스코프 체인의 활성화/변수 객체에 할당된다. 이렇게 되면 원형 참조가 형성되는 것이다. ( DOM_node.onevent -> function_obj.[[scope]] -> scope_chain -> Activation_obj.nodeRef -> DOM_node )
 이는 매우 쉬운 일이며 대부분의 웹사이트에서 이러한 참조 형태가 나타나고, 결국 평범한 코드가 시스템 메모리의 대부분을 차지하게 되는 일이 발생한다.</p>
 <p style="font-size: 14px">원형 참조가 형성되지 않도록 주의를 기울여야 하고, 피할 수 없는 경우 개선할 수 있는 방법이 취해져야 한다. 이를 테면, IE의 onunload 이벤트에 대한 이벤트 핸들링 프로퍼티를 null로 설정하는 것이 그것이다. 문제를 정확히 인식하고, 클로저가 무언인지를 정확히 이해하면 IE에서의 문제를 피할 수 있다.</p>
 
