@@ -5,59 +5,80 @@ date: '2011-06-27 22:41:49'
 ---
 
 1. npm 설치하기
+
+{% highlight shell %}
 curl http://npmjs.org/install.sh | sh
+{% endhighlight %}
 
 2. npm을 이용한 패키지 설치
+
 (1) global 설치
 
-# npm install -g xxx
+{% highlight shell %}
+$ npm install -g xxx
+{% endhighlight %}
 
 [예제]
-# npm install -g express
-/usr/local/bin/express -&gt; /usr/local/lib/node_modules/express/bin/express
+{% highlight shell %}
+$ npm install -g express
+/usr/local/bin/express ->; /usr/local/lib/node_modules/express/bin/express
 mime@1.2.2 /usr/local/lib/node_modules/express/node_modules/mime
 qs@0.1.0 /usr/local/lib/node_modules/express/node_modules/qs
 connect@1.4.1 /usr/local/lib/node_modules/express/node_modules/connect
 express@2.3.4 /usr/local/lib/node_modules/express
-#
+$
+{% endhighlight %}
 
-보는 바와 같이 /usr/local/lib/node_modules 에 해당 패키지가 설치되고, /usr/local/bin에 링크가 만들어진다.
+보는 바와 같이 /usr/local/lib/node_modules 에 해당 패키지가 설치되고, /usr/local/bin에 링크가 만들어진다.  
 ( npm의 설정값중 하나로 prefix가 있는데, 여기에 /usr/local 이 default로 저장되어 있다. )
+
 글로벌로 설치하는 경우는 실행할 바이너리가 있는 경우에 글로벌로 설치하는 것이 좋다.
+
 이를 테면, express나 node-inspector 등이 이 경우에 해당한다.
 
 (2) local 설치
-# npm install xxx
+{% highlight shell %}
+$ npm install xxx
+{% endhighlight %}
 
 [예제]
-# npm install express
+{% highlight shell %}
+$ npm install express
 mime@1.2.2 ./node_modules/express/node_modules/mime
 connect@1.4.1 ./node_modules/express/node_modules/connect
 qs@0.1.0 ./node_modules/express/node_modules/qs
 express@2.3.4 ./node_modules/express
-#
+$
+{% endhighlight %}
 
 보는 바와 같이 현재 디렉토리/node_modules 에 해당 패키지가 설치된다. 
+
 단순히 require를 통해 라이브러리만으로 사용할 때 로컬 설치를 하면 된다.
 
 여기서 궁금해할 만 한 점 하나 : 
+
 express 같은 경우 명령어도 사용해야 하고, 라이브러리로도 사용해야 하는 패키지는 어떻게 설치해야하는가?
 
 둘다 설치하면 된다-_-;
+
 다만, 하드가 야동으로 넘쳐나 단 1메가도 아쉬운 사람들은 필요한 패키지들을 모두 글로벌로 설치한 후 npm link를 통해 현재 작업디렉토리에 대해 /usr/local/lib/node_modules에 링크를 만들어 사용할 수도 있다. 
 ( 이때는 package.json 파일이 작업디렉토리의 루트 디렉토리에 있어야 한다. )
 
 3. npm 설정값 보기 / 설정하기
 
-# npm config ls -l
-# npm get prefix  // prefix 설정값 보기
-# npm set prefix /usr/local  // prefix에 "/usr/local"로 설정
+{% highlight shell %}
+$ npm config ls -l
+$ npm get prefix  // prefix 설정값 보기
+$ npm set prefix /usr/local  // prefix에 "/usr/local"로 설정
+{% endhighlight %}
 
 
 4. npm ls
+
 설치된 패키지들을 보여준다. 역시 글로벌과 로컬로 나눠어서 볼 수 있다.
 
-# npm ls
+{% highlight shell %}
+$ npm ls
 [현재 디렉토리]
 ├─┬ connect-mongodb@0.3.0 
 │ ├─┬ connect@1.4.1 
@@ -82,7 +103,7 @@ express 같은 경우 명령어도 사용해야 하고, 라이브러리로도 �
   ├── cssom@0.2.0 
   └── growl@1.1.0 
 
-# npm ls -g
+$ npm ls -g
 /usr/local/lib
 ├─┬ express@2.3.4 
 │ ├── connect@1.4.1 
@@ -94,8 +115,9 @@ express 같은 경우 명령어도 사용해야 하고, 라이브러리로도 �
   ├── node-uuid@1.1.0 
   ├── nopt@1.0.4 
   └── semver@1.0.5 
-
+{% endhighlight %}
 
 5. npm init
+
 package.json 파일에 필요한 기본적인 정보를 입력하여, package.json 파일을 생성한다.
 

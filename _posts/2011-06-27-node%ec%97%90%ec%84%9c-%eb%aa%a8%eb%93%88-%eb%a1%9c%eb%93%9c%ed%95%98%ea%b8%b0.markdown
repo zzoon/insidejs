@@ -12,39 +12,44 @@ node.js 프로그래밍을 하다보면 모듈을 로딩하는 메커니즘이 �
 node는 간단한 모듈 로딩 시스템을 가진다. node에서 파일과 모듈이 1대1로 대응된다. 예를들어, foo.js가 같은 디렉토리의 circle.js를 로딩한다고 하면,
 
 [ foo.js ]
-[sourcecode language="javascript"]
+{% highlight js %}
 var circle = require('./circle.js');
 console.log( 'The area of a circle of radius 4 is '
            + circle.area(4));
-[/sourcecode]
+{% endhighlight %}
 
 [ circle.js ]
-[sourcecode language="javascript"]
+{% highlight js %}
 var PI = Math.PI;
 
 exports.area = function (r) {
-return PI * r * r;
+  return PI * r * r;
 };
 
 exports.circumference = function (r) {
-return 2 * PI * r;
+  return 2 * PI * r;
 };
-[/sourcecode]
+{% endhighlight %}
 
 circle.js 모듈은 area()와 circumference() 함수를 export한다. node에서 객체를 export할 때는 exports 객체에 추가하기만 하면 된다.
 지역 변수들은 모두 private이 될 것이다. 위 예제에서는 PI가 private이다.
 <h2>Core modules</h2>
 node는 몇몇 모듈들은 컴파일되어 바이너리에 포함되어 있다. 이 모듈들은 이 문서의 다른 곳에 아주 자세하게 설명되어 있다.
+
 이 핵심 모듈은 node의 소스의 lib 디렉토리에 정의되어 있다.
+
 핵심 모듈은 require()를 통해 항상 우선하여 로딩된다. 예를 들면 require('http')는 같은 이름의 파일이 있다고 하더라도, 빌트인된 HTTP 모듈을 리턴할 것이다.
 <h2>File Modules</h2>
 만약 정확한 파일이름을 가지고 찾다가 실패한다면, .js 확장자를 붙여서 로딩을 시도할 것이다. 그것도 안되면 .node 확장자를 붙여서 시도한다.
+
 .js는 자바스크립트 텍스트 파일로 해석하고, .node 파일은 dlopen을 통해 로딩되는 컴파일된 애드온 모듈로 해석한다.
 
 '/'로 시작하는 모듈은 파일에 대한 절대 경로이다. 예를들면, require('/home/marco/foo.js')는 /home/macro/foo.js를 로딩할 것이다.
+
 './'로 시작하는 모듈은 파일에 대한 상대 경로이다. 위 예제에서 circle.js는 반드시 foo.js와 같은 디렉토리에 있어야 한다.
 
 '/'나 './'가 없다면 그 모듈은 핵심 모듈이 아니면 node_modules 디렉토리에서 로딩된다.
+
 <h2>Loading from `node_modules` Folders</h2>
 require()에 전달되는 모듈 식별자(identifier)가 native 모듈(핵심모듈)이 아니거나, '/'나 './'로 시작하지 않는다면, node는 현재 모듈의 상위 디렉토리로가서 /node_modules를 추가하고 모듈 로딩을 시도한다.
 
@@ -52,41 +57,55 @@ require()에 전달되는 모듈 식별자(identifier)가 native 모듈(핵심�
 
 예를 들면, /home/ry/projects/foo.js 에서 require('bar.js')를 호출하면, node는 다음과 같은 순서로 찾을 것이다.
 
+{% highlight shell %}
 /home/ry/projects/node_modules/bar.js
 /home/ry/node_modules/bar.js
 /home/node_modules/bar.js
 /node_modules/bar.js
+{% endhighlight %}
+
 <h2>Optimizations to the `node_modules` Lookup Process</h2>
 많은 단계의 계층화된 의존성(?)이 존재하는 경우, 파일 트리는 상당히 길어질 수 있다.
+
 이 경우, 다음과 같이 최적화하여 경로를 찾는다.
 
 첫째, /node_modules 에는 node_modules를 붙이지 않는다.
+
 둘째, node_modules 안에서 require를 호출하면, 가장 상위의 node_modules가 전체 탐색 트리의 루트 디렉토리가 된다.
 
 예를 들면,
 '/home/ry/projects/foo/node_modules/bar/node_modules/baz/quux.js' 가 require('asdf.js')를 호출하면,
 다음과 같은 순서로 찾는다.
 
+{% highlight shell %}
 /home/ry/projects/foo/node_modules/bar/node_modules/baz/node_modules/asdf.js
 /home/ry/projects/foo/node_modules/bar/node_modules/asdf.js
 /home/ry/projects/foo/node_modules/asdf.js
+{% endhighlight %}
+
 <h2>Folders as Modules</h2>
 프로그램과 라이브러리를 독립적인 디렉토리에 넣어 구성하고, 해당 라이브러리의 진입점으로서 제공하면 편하다.
 
 require에 인자로 폴더를 넣는 세가지 방법이 있다.
+
 첫째는 package.json파일을 작업디렉토리의 루트디렉토리에 만든다. 그리고 main 모듈을 나타낸다.
+
 예를 들면, 다음과 같다.
 
-[sourcecode language="javascript"]
-{ &quot;name&quot; : &quot;some-library&quot;,
-  &quot;main&quot; : &quot;./lib/some-library.js&quot; }
-[/sourcecode]
+{% highlight js %}
+{ "name" : "some-library",
+  "main" : "./lib/some-library.js" }
+{% endhighlight %}
 
 만약 이 파일이 same-library 디렉토리에 있다면, require('./some-library')는 ./some-library/lib/some-library.js를 로드하려고 할 것이다.
 
 만약, package.json이 없다면, index.js, 다음엔 index.node를 로드하려고 할 것이다. 예를 들어, package.json이 없고, require('./some-library')를 호출하면, 다음을 로드하려고 할 것이다.
+
+{% highlight shell %}
 ./some-library/index.js
 ./some-library/index.node
+{% endhighlight %}
+
 <h2>Caching</h2>
 모듈은 처음 로드되고 나면, 캐싱된다. 이는 require('foo')를 호출할 때 마다, 정확히 같은 객체를 리턴할 것이다.
 require('foo')를 여러번 호출하면, 그 수만큼 실행되지 않는다. 이 것은 중요한 특징이다.
@@ -94,10 +113,11 @@ require('foo')를 여러번 호출하면, 그 수만큼 실행되지 않는다. 
 만약 당신이 모듈의 실행코드를 여러번 실행하고자 한다면, 함수를 export한 후 이 함수를 호출하도록 해라.
 <h2>Module Caching Caveats</h2>
 모듈은 resolve된 파일이름을 바탕으로 캐쉬된다. 모듈은 다른 파일이름으로 resolve될 수도 있기 때문에(node_modules에서 로딩하는 경우), require('foo')가 다른 파일이름으로 resolve된다면, 같은 객체를 리턴하지 않는다.
+
 <h2>module.exports</h2>
 exports 객체는 Mudule 시스템에 의해 만들어진다. 많은 사람들이 그들의 모듈이 인스턴스가 되어 사용되어지길 바란다. 이를 위해 module.exports에 원하는 export 객체를 넣는다. 예를 들어 a.js를 모듈로 만든다고 한다면,
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var EventEmitter = require('events').EventEmitter;
 
 module.exports = new EventEmitter();
@@ -107,38 +127,40 @@ module.exports = new EventEmitter();
 setTimeout(function() {
   module.exports.emit('ready');
 }, 1000);
-[/sourcecode]
+{% endhighlight %}
 
 다른 파일에서 다음과 같이 쓸 수 있다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var a = require('./a');
 a.on('ready', function() {
   console.log('module a is ready');
 });
-[/sourcecode]
+{% endhighlight %}
 
 module.exports에 대한 할당은 즉시 수행되어야 하므로, 콜백에서는 사용할 수 없다. 다음은 작동하지 않을 것이다.
 
-&lt; x.js &gt;
+< x.js >
 
-[sourcecode language="javascript"]
+{% highlight js %}
 setTimeout(function() {
-  module.exports = { a: &quot;hello&quot; };
+  module.exports = { a: "hello" };
 }, 0);
-[/sourcecode]
+{% endhighlight %}
 
-&lt; y.js &gt;
+< y.js >
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var x = require('./x');
 console.log(x.a);
-[/sourcecode]
+{% endhighlight %}
+
 <h2>All Together...</h2>
 require()가 불리면 정확한 파일을 로딩하기 위해, require.resolve() 함수를 사용한다.
+
 위에 설명한 것을 정리하여 require.resolve가 하는 일을 정리하면, 아래와 같은 알고리즘의 수도코드가 나온다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 require(X) from module at path Y
 1. If X is a core module,
    a. return the core module
@@ -147,7 +169,7 @@ require(X) from module at path Y
    a. LOAD_AS_FILE(Y + X)
    b. LOAD_AS_DIRECTORY(Y + X)
 3. LOAD_NODE_MODULES(X, dirname(Y))
-4. THROW &quot;not found&quot;
+4. THROW "not found"
 
 LOAD_AS_FILE(X)
 1. If X is a file, load X as JavaScript text.  STOP
@@ -156,7 +178,7 @@ LOAD_AS_FILE(X)
 
 LOAD_AS_DIRECTORY(X)
 1. If X/package.json is a file,
-   a. Parse X/package.json, and look for &quot;main&quot; field.
+   a. Parse X/package.json, and look for "main" field.
    b. let M = X + (json main field)
    c. LOAD_AS_FILE(M)
 2. LOAD_AS_FILE(X/index)
@@ -169,13 +191,13 @@ LOAD_NODE_MODULES(X, START)
 
 NODE_MODULES_PATHS(START)
 1. let PARTS = path split(START)
-2. let ROOT = index of first instance of &quot;node_modules&quot; in PARTS, or 0
+2. let ROOT = index of first instance of "node_modules" in PARTS, or 0
 3. let I = count of PARTS - 1
 4. let DIRS = []
 5. while I &gt; ROOT,
-   a. if PARTS[I] = &quot;node_modules&quot; CONTINUE
-   c. DIR = path join(PARTS[0 .. I] + &quot;node_modules&quot;)
+   a. if PARTS[I] = "node_modules" CONTINUE
+   c. DIR = path join(PARTS[0 .. I] + "node_modules")
    b. DIRS = DIRS + DIR
    c. let I = I - 1
 6. return DIRS
-[/sourcecode]
+{% endhighlight %}
