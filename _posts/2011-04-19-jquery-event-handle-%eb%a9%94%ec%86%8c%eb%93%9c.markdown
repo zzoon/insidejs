@@ -10,18 +10,16 @@ jQuery.event.handle 은 jQuery 사용시 실제 이벤트가 발생되었을 때
 
 이 블로그의 <a title="jQuery에서 이벤트 핸들러 등록 및 호출 과정" href="http://nodejs-kr.org/wordpress/archives/266">jQuery에서 이벤트 핸들러 등록 및 호출 과정</a>을 보면  jQuery.event.add 함수에서 다음 코드를 확인할 수 있다.
 
+{% highlight js %}
 val = jQuery.event.handle.apply(arguments.callee.elem, arguments);
+{% endhighlight %}
 
 를 통해 호출된다.  여기서 arguments.callee.elem 는 event가 발생한 해당 DOM 요소이다.
 
-&nbsp;
-
 이 글에서 jQuery.event.handle 의 동작 과정을 살펴보자.
 
-&nbsp;
-
-[sourcecode language="javascript"]
-var handlers = jQuery.data(this, &quot;events&quot;) &amp;&amp; jQuery.data(this, &quot;events&quot;)[event.type],
+{% highlight js %}
+var handlers = jQuery.data(this, "events") && jQuery.data(this, "events")[event.type],
     args = Array.prototype.slice.call( arguments, 1 );
     args.unshift( event );
 
@@ -46,7 +44,7 @@ var handlers = jQuery.data(this, &quot;events&quot;) &amp;&amp; jQuery.data(this
        }
    }
 }
-[/sourcecode]
+{% endhighlight %}
 
 <strong>1 라인</strong> : handlers는 jQuery.data 메소드를 통해 jQuery cache의 events의 event.type(예를들면 "click") 프로퍼티를 가리킨다.
 

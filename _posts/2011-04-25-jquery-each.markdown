@@ -15,47 +15,45 @@ collection : 반복할 배열이나 객체
 callback(indexInArray, valueOfElement) : 모든 객체에서 호출될 함수</blockquote>
 예제 코드 및 jQuery.each() 소스코드를 보면서 좀더 자세히 살펴보자.
 
-[sourcecode language="javascript"]
-
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;style&gt;
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
   div { color:blue; }
   div#five { color:red; }
-  &lt;/style&gt;
-  &lt;script src=&quot;http://code.jquery.com/jquery-1.5.js&quot;&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
+  </style>
+  <script src="http://code.jquery.com/jquery-1.5.js"></script>
+</head>
+<body>
 
-  &lt;div id=&quot;one&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;two&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;three&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;four&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;five&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-    var arr = [ &quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot; ];
+  <div id="one"></div>
+  <div id="two"></div>
+  <div id="three"></div>
+  <div id="four"></div>
+  <div id="five"></div>
+<script>
+    var arr = [ "one", "two", "three", "four", "five" ];
 
     jQuery.each(arr, function() {
-      $(&quot;#&quot; + this).text(&quot;Mine is &quot; + this + &quot;.&quot;);
-       return (this != &quot;three&quot;); // will stop running after &quot;three&quot;
+      $("#" + this).text("Mine is " + this + ".");
+       return (this != "three"); // will stop running after "three"
    });
-&lt;/script&gt;
+</script>
 
-&lt;/body&gt;
-&lt;/html&gt;
-
-[/sourcecode]
+</body>
+</html>
+{% endhighlight %}
 
 위 예제에서  jQuery.each() 함수를 사용한 부분을 살펴보자.  코드는 다음과 같다.
-[sourcecode lang="javascript"]
- var arr = [ &quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot; ];
+{% highlight js %}
+ var arr = [ "one", "two", "three", "four", "five" ];
 
  jQuery.each(arr, function() {
-    $(&quot;#&quot; + this).text(&quot;Mine is &quot; + this + &quot;.&quot;);
-    return (this != &quot;three&quot;); // will stop running after &quot;three&quot;
+    $("#" + this).text("Mine is " + this + ".");
+    return (this != "three"); // will stop running after "three"
  });
-[/sourcecode]
+{% endhighlight %}
 
 앞서 설명한 jQuery.each() 메서드의 설명을 참조하면, 위 코드의 대략적인 역할은 arr 배열에 각 원소를 루프돌면서 콜백 함수를 실행하는 것이다.
 
@@ -65,56 +63,55 @@ callback(indexInArray, valueOfElement) : 모든 객체에서 호출될 함수</b
 
 결과값
 
-[sourcecode language="html"]
+{% highlight html %}
 Mine is one.
 Mine is two.
 Mine is three.
-&lt;출력 안됨&gt;
-&lt;출력 안됨&gt;
-[/sourcecode]
+<출력 안됨>
+<출력 안됨>
+{% endhighlight %}
 
  실제 jQuery.each() 소스를 살펴보자.  
-[sourcecode language="javascript"]
-	// args is for internal usage only
-	each: function( object, callback, args ) {
-		// 콜백 함수의 인자가 있는지 체크
-		if ( args ) {
-			// 첫번째 인자로 넘어온 객체가 배열이나 배열형 객체인지를 체크
-			if ( object.length == undefined ) {
-				// 배열이 아닌 일반형 객체일 경우는 객체의 각 프로퍼티를 루프돌면서 콜백 함수를 실행한다.
-				// 콜백 함수 호출 시에 함수 인자가 전해진다.
-				// 이때 apply 메서드를 통해 실행을 시켰으므로 콜백 함수 내에서 this는 object[name]이 가리키는
-				// 값을 가리킨다. 여기서 apply 메서드를 사용한 이유는 object 인자로 넘어온 객체를 수정하기 위함이다.
-				for ( var name in object )
-                                        // 콜백 함수의 리턴값이 false인 경우 루프는 취소된다.
-					if ( callback.apply( object[ name ], args ) === false )
-						break;
-			} else
-				// 배열이나 배열형 객체일 경우, 0부터 n-1번째까지의 배열 원소들을 루프를 돌면서
-				// apply 메서드를 이용 콜백 함수 실행.
-				for ( var i = 0, length = object.length; i &lt; length; i++ )
-					if ( callback.apply( object[ i ], args ) === false )
-						break;
+{% highlight js %}
+  // args is for internal usage only
+  each: function( object, callback, args ) {
+    // 콜백 함수의 인자가 있는지 체크
+    if ( args ) {
+      // 첫번째 인자로 넘어온 객체가 배열이나 배열형 객체인지를 체크
+      if ( object.length == undefined ) {
+        // 배열이 아닌 일반형 객체일 경우는 객체의 각 프로퍼티를 루프돌면서 콜백 함수를 실행한다.
+        // 콜백 함수 호출 시에 함수 인자가 전해진다.
+        // 이때 apply 메서드를 통해 실행을 시켰으므로 콜백 함수 내에서 this는 object[name]이 가리키는
+        // 값을 가리킨다. 여기서 apply 메서드를 사용한 이유는 object 인자로 넘어온 객체를 수정하기 위함이다.
+        for ( var name in object )
+          // 콜백 함수의 리턴값이 false인 경우 루프는 취소된다.
+          if ( callback.apply( object[ name ], args ) === false )
+            break;
+      } else
+        // 배열이나 배열형 객체일 경우, 0부터 n-1번째까지의 배열 원소들을 루프를 돌면서
+        // apply 메서드를 이용 콜백 함수 실행.
+        for ( var i = 0, length = object.length; i < length; i++ )
+          if ( callback.apply( object[ i ], args ) === false )
+            break;
 
-		// A special, fast, case for the most common use of each
-		// args가 정의되지 않은 경우
-		} else {
-			// 일반형 객체의 경우, call 메서드를 통해 콜백 함수를 호출한다. 이 경우 콜백 함수의 인자로
-			// 객체의 프로퍼티(name)와 값(object[name])이 전달된다.
-			if ( object.length == undefined ) {
-				for ( var name in object )
-					if ( callback.call( object[ name ], name, object[ name ] ) === false )
-						break;
-			} else
-			// 배열이나 배열형 객체인 경우, 0부터 n-1번째까지의 배열 원소들을 루프돌면서
-			// call 메서드를 이용해 콜백 함수 실행.
-				for ( var i = 0, length = object.length, value = object[0];
-					i &lt; length &amp;&amp; callback.call( value, i, value ) !== false; value = object[++i] ){}
-		}
+    // A special, fast, case for the most common use of each
+    // args가 정의되지 않은 경우
+    } else {
+      // 일반형 객체의 경우, call 메서드를 통해 콜백 함수를 호출한다. 이 경우 콜백 함수의 인자로
+      // 객체의 프로퍼티(name)와 값(object[name])이 전달된다.
+      if ( object.length == undefined ) {
+        for ( var name in object )
+          if ( callback.call( object[ name ], name, object[ name ] ) === false )
+            break;
+      } else
+      // 배열이나 배열형 객체인 경우, 0부터 n-1번째까지의 배열 원소들을 루프돌면서
+      // call 메서드를 이용해 콜백 함수 실행.
+        for ( var i = 0, length = object.length, value = object[0];
+          i < length &amp;&amp; callback.call( value, i, value ) !== false; value = object[++i] ){}
+    }
 
-		// 첫번째 인자를 다시 반환한다.
-		return object;
-	},
-[/sourcecode]
+    // 첫번째 인자를 다시 반환한다.
+    return object;
+  },
+{% endhighlight %}
 
-</pre>
