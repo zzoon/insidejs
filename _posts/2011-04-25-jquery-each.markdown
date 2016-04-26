@@ -107,7 +107,7 @@ Mine is three.
       // 배열이나 배열형 객체인 경우, 0부터 n-1번째까지의 배열 원소들을 루프돌면서
       // call 메서드를 이용해 콜백 함수 실행.
         for ( var i = 0, length = object.length, value = object[0];
-          i < length &amp;&amp; callback.call( value, i, value ) !== false; value = object[++i] ){}
+          i < length && callback.call( value, i, value ) !== false; value = object[++i] ){}
     }
 
     // 첫번째 인자를 다시 반환한다.
