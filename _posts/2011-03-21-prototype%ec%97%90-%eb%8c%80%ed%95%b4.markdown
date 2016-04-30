@@ -9,12 +9,12 @@ date: '2011-03-21 15:41:31'
 
 - 각 생성자는 "prototype" 프로퍼티를 가지는 함수이다. 이 프로퍼티는 <strong>prototype-based inheritance(프로토타입 기반 상속)</strong>과 <strong>shared properties(공유 프로퍼티)</strong>를 구현하기 위해 사용된다.
 
-- 생성자에 의해 만들어진 모든 객체는 생성자의 "prototype" 프로퍼티의 값을 참조하는<strong> implicit reference (객체의 prototype 이라 불림)</strong>를 가진다. --&gt; 이게 우리가 스터디에서 말한 "리얼링크" 임.
+- 생성자에 의해 만들어진 모든 객체는 생성자의 "prototype" 프로퍼티의 값을 참조하는<strong> implicit reference (객체의 prototype 이라 불림)</strong>를 가진다. --> 이게 우리가 스터디에서 말한 "리얼링크" 임.
 
 - 객체의 prototype 또한 객체이므로 자신의 prototype을 가진다. 때문에 객체들의 prototype은 체인 형태로
 서로 연결되어 있으며, 이를 prototype chain 이라 부른다.
 
-<a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/스크린샷-2011-03-22-오전-12.20.471.png"><img class="alignnone size-full wp-image-12" title="스크린샷 2011-03-22 오전 12.20.47" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/스크린샷-2011-03-22-오전-12.20.471.png" alt="" width="617" height="306" /></a>
+![]({{ site.url }}/assets/prototype_screenshot.png)
 
 - CF는 생성자 이자 객체이다.
 
@@ -33,14 +33,14 @@ date: '2011-03-21 15:41:31'
 <h3>1. prototype 프로퍼티란?</h3>
 모든 함수 객체(특히 생성자)는 prototype 프로퍼티를 가지고 있으며, prototype 프로퍼티는 디폴트로 empty object를 가리킨다. 여기서 말하는 prototype은 '<strong>함수 객체가 가지는 prototype 프로퍼티</strong>'를 의미하며, 이것은 객체(object)다..
 
---&gt; 반면, 모든 객체가 prototype 프로퍼티를 가지고 있지는 않다.
+--> 반면, 모든 객체가 prototype 프로퍼티를 가지고 있지는 않다.
 <h3>2. prototype이란?</h3>
 1에서 설명한 <strong>prototype 프로퍼티</strong>와 구분하자.
 
 new와 생성자를 통해 생성된 객체는 '<strong>생성자 함수의 prototype 프로퍼티가 가리키는 객체</strong>'를 연결하는 링크를 가지고 있다. 이 링크는 implicit prototype link (암묵적 프로토타입 링크)라고 불린다.  크롬 브라우저의 경우는 <strong>__proto__ 프로퍼티</strong>가 그런 역할을 한다.
 보통 우리가 흔히 사용하는  prototype은 새로 생성된 객체의 implicit 링크가 가리키는 '<strong>생성자 함수의 prototype</strong>' 객체를 의미한다.
 
---&gt; 특정 객체의 prototype은   그 객체의 '생성자 함수의 prototype 프로퍼티가 가리키는 객체'다.
+--> 특정 객체의 prototype은   그 객체의 '생성자 함수의 prototype 프로퍼티가 가리키는 객체'다.
 
 <strong>참고:   ' 생성자'와  '이를 통해 생성된 객체'는 직접적으로 연결되어 있지 않다. </strong>
 

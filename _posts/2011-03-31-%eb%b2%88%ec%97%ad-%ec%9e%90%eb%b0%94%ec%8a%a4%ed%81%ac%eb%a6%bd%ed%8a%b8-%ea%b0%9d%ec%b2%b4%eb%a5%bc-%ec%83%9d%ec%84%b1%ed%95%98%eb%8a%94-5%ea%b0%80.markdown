@@ -9,18 +9,19 @@ date: '2011-03-31 10:02:29'
 <h3>1. Simple Object Literal</h3>
 {}를 통해 빈 객체를 생성한 다음, 프로퍼티를 추가해 나가는 방법
 
-[sourcecode language="javascript"]
+{% highlight js %}
 myApp.notepad  = {};
 myApp.notepad.writeable = true;
 myApp.notepad.font  = 'helvetica';
 myApp.notepad.setFont = function(theFont) {
     myApp.notepad.font = theFont;
 }
-[/sourcecode]
+{% endhighlight %}
+
 <h3>2. Nested Object Literal</h3>
 {} 내부에 프로퍼티를 미리 정의한 다음 객체를 생성하는 방법
 
-[sourcecode language="javascript"]
+{% highlight js %}
 myApp.notepad  = {
     writeable: true,
     font: 'helvetica',
@@ -28,11 +29,12 @@ myApp.notepad  = {
         this.font = theFont;
     }
 }
-[/sourcecode]
+{% endhighlight %}
+
 <h3>3. Constructor using Object Literal</h3>
 {}를 통해 객체를 만드는 함수를 만들고, 이를 호출하는 방식으로 객체를 생성하는 방법
 
-[sourcecode language="javascript"]
+{% highlight js %}
 myApp.Notepad = function(defaultFont) {
     var  that = {};
     that.writeable = true;
@@ -44,11 +46,12 @@ myApp.Notepad = function(defaultFont) {
 }
 
 myApp.notepad1 =  myApp.Notepad('helvetica');
-[/sourcecode]
+{% endhighlight %}
+
 <h3>4. Simple Constructor for new</h3>
 생성자 함수를 만든 다음, new를 통해 객체를 생성하는 방법
 
-[sourcecode language="javascript"]
+{% highlight js %}
 myApp.Notepad = function(defaultFont) {
     this.writeable = true;
     this.font = defaultFont;
@@ -58,12 +61,12 @@ myApp.Notepad = function(defaultFont) {
 }
 
 myApp.notepad1  = new myApp.Notepad('helvetica');
-[/sourcecode]
+{% endhighlight %}
+
 <h3>5. Prototype with Constructor for new</h3>
 Prototype을 가진 생성자 함수와 new를 이용해서 객체를 생성하는 방법.
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 myApp.Notepad = function(defaultFont) {
     this.font = defaultFont;
 }
@@ -73,4 +76,4 @@ myApp.Notepad.prototype.setFont  = function(theFont) {
 }
 
 myApp.notepad1  = new myApp.Notepad('helvetica');
-[/sourcecode]
+{% endhighlight %}

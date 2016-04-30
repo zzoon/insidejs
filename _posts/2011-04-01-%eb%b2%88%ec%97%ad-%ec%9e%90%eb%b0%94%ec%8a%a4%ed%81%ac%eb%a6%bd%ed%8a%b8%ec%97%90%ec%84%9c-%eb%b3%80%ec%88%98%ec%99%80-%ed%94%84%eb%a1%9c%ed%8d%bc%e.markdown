@@ -15,20 +15,20 @@ date: '2011-04-01 10:08:05'
 
 global 컨텐스트의 VariableObject는 global 객체다. 브라우저에서 global 객체는 window다.
 
-[sourcecode language="javascript"]
-var a = &quot;hello&quot;;
+{% highlight js %}
+var a = "hello";
 //window is the global VariableObject
 window.a; //hello
-[/sourcecode]
+{% endhighlight %}
 
 함수 컨텐스트 경우는 좀더 복잡하다. 각 함수는 자신의 VariableObject (보통은 ActivationObject로 알려져 있음)를 가지고 있지만, Rhino를 사용하지 않는다면 보통은 접근할 수 없다. 여러분은 단지 각각의 함수가 이 객체를 가지고 있다는 사실만 알면 된다. 그러므로 여러분이 함수 컨텍스트 안에서 변수를 생성한다면, 그것을 프로퍼티로서 참조할 수 없다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function foo() {
-    var bar = &quot;sausage&quot;;
+    var bar = "sausage";
     window.bar; //undefined (VariableObject is not window)
 }
-[/sourcecode]
+{% endhighlight %}
 
 그렇다면 우리는 다음과 같은 의문을 가질 수 있다.
 <h2>프로퍼티란 무엇인가?</h2>
@@ -36,39 +36,41 @@ ECMA5 : 객체의 일부로 이름과 값 사이 연결을 의미 [4.3.26]
 
 다시 말하면, 프로퍼티는 객체를 구성하는 블록들이다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //Examples of properties
-foo.bar = &quot;baz&quot;;
+foo.bar = "baz";
 window.alert;
 a.b = function(c,d,e) {return (c * d) + e};
 Math.PI;
 myArray[5];
-[/sourcecode]
+{% endhighlight %}
+
 <h2>변수란 무엇인가?</h2>
 불행하게 ECMA5는 다음과 같은 정의를 강요하지는 않는다.
 <blockquote>이렇게 정의 해보자 : 변수는 실행 컨텍스트 내에 존재하는 이름과 값 사이의 연결을 의미한다.</blockquote>
 우리는 이미 변수와 프로퍼티의 본질적인 차이를 알 수 있다. 프로퍼티는 객체에 포함되어 있고, 변수는 컨텍스트에 포함되어 있다. (해당 컨텍스텍의  VariableObject의 프로퍼티에 변수들이 포함되어 있다.)
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //Examples of variables
 var bar = 2; //global context
 function foo = function() {
     var a; //function context
     f = 4; //global context (probably unintentionally)
 }
-[/sourcecode]
+{% endhighlight %}
+
 <h2>그러나 변수와 프로퍼티는 바로 서로 교체가 가능한가??</h2>
 원래는 불가하지만, 다음과 같은 방식에서 확인할 수 있다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //define as a property, access as a variable
-window.foo = &quot;a&quot;;
+window.foo = "a";
 foo; //a
 
 //define as a variable, access as a property
 var bar = 54;
 window.bar; //54
-[/sourcecode]
+{% endhighlight %}
 
 이것은 global 객체(프로퍼티의 부모)와 전역 VariableObject(변수의 부모)가 동일하기 때문에 일어난다.
 당연히 함수 컨텐스트에서 프로퍼티와 변수의 상호 교환은 오동작 할 것이다.
@@ -77,12 +79,12 @@ window.bar; //54
 <h3>hoisting</h3>
 <span style="color: #ff0000;">지난 포스팅(링크)에서 hoisting에 대해 상세하게 설명했다. 그것은 다음과 같이 요약된다. (이전 블로그 글의 링크 필요) </span>변수나 함수 선언으로 정의된 객체는 실제 코드의 위치와 상관없이 자신의 실행 Scope의 시작 부분에서 생성된다. 반면에 프로퍼티 정의는 프로그램 제어가 statement에 도달할 때 생성된다. (즉, hoisting 되지 않는다.)
 
-[sourcecode language="javascript"]
+{% highlight js %}
 alert(a); //undefined (no error)
 alert(b); //ReferenceError: b is not defined
 var a = 24;
 window.b = 36;
-[/sourcecode]
+{% endhighlight %}
 
 예제에서 두 가지를 주목하자.
 
@@ -96,46 +98,47 @@ window.b = 36;
 
 당신이 <strong>변수</strong>를 생성할 때 그것은 [[DontDelete]] 속성은 true로 설정된다. 여러분이 명식적으로 <strong>프로퍼티</strong>를 생성하면, 초기에는 그것의 [[DontDelete]] 속성은 false로 설정된다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //variable
 var oneTimeInit = function() {
     //do stuff
 }
 delete oneTimeInit; //false (means it did not happen)
-typeof oneTimeInit; &quot;function&quot;;
+typeof oneTimeInit; "function";
 
 //explicit property
 window.oneTimeInit = function() {
     //do stuff
 }
 delete oneTimeInit; //true
-typeof oneTimeInit; &quot;undefined&quot;;
-[/sourcecode]
+typeof oneTimeInit; "undefined";
+{% endhighlight %}
 
 delete에 변수와 프로퍼티에 어떻게 적용되는지 에 대한 자세한 설명은 <a href="http://perfectionkills.com/understanding-delete/">http://perfectionkills.com/understanding-delete/</a>을 살펴봐라.
 <h3>illegal names</h3>
 subscript notation(대괄호)을 이용할 경우, 잘못된 식별자를 통해서도 프로퍼티에 접근할 수 있지만, 변수의 경우는 에러가 발생한다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //illegal name
-var a = &quot;***&quot;;
+var a = "***";
 window[a] = 123;
 window[a]; //123 (Property lookup OK)
 *** //ReferenceError (illegal name)
 
 //legal name
-var a = &quot;foo&quot;;
+var a = "foo";
 window[a] = 123;
 window[a]; //123
 foo; //123
-[/sourcecode]
+{% endhighlight %}
+
 <h2>What other kinds of variables are there?</h2>
 함수의 arguments 객체와 각각 인자들은 ActivationObject(i.e. 함수의 VariableObject)에 추가된다. 함수 선언들은 이 객체의 프로퍼티들이고, <span style="color: #000000;">따사서 변수로 취급된다.
 (역자주, 위 예제에서 변수들은 VariableObject에 프로퍼티로 관리된다라고 소개한 적이 있다) </span>
 <h2>How many ways can I define a property?</h2>
 적어도 5가지 이상이다. 다음 예제를 살펴보자.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //dot notation
 window.foo = 'hello';
 
@@ -144,13 +147,13 @@ window['foo'] = 'hello';
 
 //forgetting to use the var keyword
 var bar = function() {
-    foo = &quot;hello&quot;;
+    foo = "hello";
 }
 
 //Using ECMA 5 methods (showing limited use of property attributes for clarity)
 //runs in chrome, safari and IE8 (IE8 works for DOM objects only)
-Object.defineProperty(window,&quot;foo&quot;, {value: &quot;hello&quot;});
+Object.defineProperty(window,"foo", {value: "hello"});
 
 //runs in chrome and safari
-Object.defineProperties(window, {&quot;foo&quot;: {value: &quot;hello&quot;},&quot;bar&quot;: {value: &quot;goodbye&quot;}});
-[/sourcecode]
+Object.defineProperties(window, {"foo": {value: "hello"},"bar": {value: "goodbye"}});
+{% endhighlight %}

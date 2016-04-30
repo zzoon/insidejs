@@ -13,7 +13,7 @@ jQuery의 이벤트 핸들러 등록 방식을 이해하기 위하여, Dean Edwa
 
 <span style="font-family: Consolas, Monaco, 'Courier New', Courier, monospace;font-size: 12px;line-height: 18px"> </span>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function addEvent(element, type, handler) {
     // assign each event handler a unique ID
     if (!handler.$$guid) handler.$$guid = addEvent.guid++;
@@ -24,8 +24,8 @@ function addEvent(element, type, handler) {
     if (!handlers) {
         handlers = element.events[type] = {};
         // store the existing event handler (if there is one)
-        if (element[&quot;on&quot; + type]) {
-            handlers[0] = element[&quot;on&quot; + type];
+        if (element["on" + type]) {
+            handlers[0] = element["on" + type];
         }
     }
 
@@ -33,7 +33,7 @@ function addEvent(element, type, handler) {
     handlers[handler.$$guid] = handler;
 
     // assign a global event handler to do all the work
-    element[&quot;on&quot; + type] = handleEvent;
+    element["on" + type] = handleEvent;
 };
 
 // a counter used to create unique IDs
@@ -41,11 +41,11 @@ addEvent.guid = 1;
 
 function removeEvent(element, type, handler) {
     // delete the event handler from the hash table
-    if (element.events &amp;&amp; element.events[type]) {
+    if (element.events && element.events[type]) {
         delete element.events[type][handler.$$guid];
     }
 };
-[/sourcecode]
+{% endhighlight %}
 
 addEvent 함수의 인자는 (DOM element, 이벤트 타입, 핸들러)이다.
 
@@ -63,7 +63,7 @@ addEvent 함수의 인자는 (DOM element, 이벤트 타입, 핸들러)이다.
 
 그렇다면 handleEvent 함수의 코드를 살펴보자.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function handleEvent(event) {
     // grab the event object (IE uses a global event object)
     event = event || window.event;
@@ -75,8 +75,7 @@ function handleEvent(event) {
         this.$$handleEvent(event);
     }
 };
-
-[/sourcecode]
+{% endhighlight %}
 
 여기서 this는 이벤트가 발생한 DOM Element이고, 인자로 넘어오는 event는 현재 발생한 해당 이벤트를 가리킨다.
 3라인 : IE를 위한 코드로서 IE에서는 콜백에 event가 넘어오지 않고, window.event를 통해 접근할 수 있다.
@@ -86,7 +85,9 @@ function handleEvent(event) {
 7~10라인 : handlers의 각 요소들(핸들러)을 받아서 실행한다.
 
 위에서 설명한 내용을 이해하기 쉽게 그림을 그려보면 다음과 같다.
-<p style="text-align: center"><a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/04/addevent2.png"><img class="aligncenter size-full wp-image-261" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/04/addevent2.png" alt="" width="482" height="205" /></a></p>
+
+![]({{ site.url }}/assets/addevent2.png)
+
 요약하면, addEvent를 통해 특정 DOM 요소의 특정 이벤트에 대한 핸들러를 등록하면 이는 그 DOM요소의 events 프로퍼티에 하나씩 등록이 된다. 그래서 해당 이벤트가 발생하면 handleEvent 함수를 통해 Dom요소의 events 프로퍼티에 등록된 핸들러들이 하나씩 호출되는 것이다. 이렇게 하면, 하나의 이벤트에 대하여 여러 핸들러를 차례로 호출할 수 있다. removeEvent에 대한 설명은 생략하겠다.
 
 jQuery는 이 아이디어를 그대로 이어받아서 이벤트 핸들러 등록에 대한 구현을 하였다.

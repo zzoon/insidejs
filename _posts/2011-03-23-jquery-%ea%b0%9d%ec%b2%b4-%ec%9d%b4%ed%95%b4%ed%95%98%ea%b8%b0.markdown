@@ -10,44 +10,39 @@ Prototype에 대해 이해했다면, jQuery 객체가 어떤 방식으로 생성
 
 먼저 jQuery function 객체를 생성하는 코드는 다음과 같다.
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 var jQuery = window.jQuery = function( selector, context ) {
-
     // The jQuery object is actually just the init constructor 'enhanced'
-
     return new jQuery.prototype.init( selector, context );
-
 };
+{% endhighlight %}
 
-[/sourcecode]
-
-만약에 사용자가 $("&lt;div&gt;") 로 jquery 객체를 생성한다고 한다면, 제일 처음 위의 함수가 실행될 것이다.
+만약에 사용자가 $("<div>") 로 jquery 객체를 생성한다고 한다면, 제일 처음 위의 함수가 실행될 것이다.
 여기서 하는 일이라곤, jQuery.prototype.init을 생성자로 하는 새로운 객체를 생성하여 돌려주는 것이다.
 jQuery.prototype.init은 다음과 같이 정의된다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 jQuery.fn = jQuery.prototype = {
 	init: function( selector, context ) {
         ...............
         },
 
-[/sourcecode]
+{% endhighlight %}
 
-jQuery.prototype 에 새로운 객체 {}를 가리키도록 하고 이 {} 안에 각종 property들이 정의된다. 그중 첫번째로 정의되는 property가 init이다. 이 init 함수에서 리턴되는 객체가 결국 $("&lt;div&gt;")가 가리키는 객체가 된다.
+jQuery.prototype 에 새로운 객체 {}를 가리키도록 하고 이 {} 안에 각종 property들이 정의된다. 그중 첫번째로 정의되는 property가 init이다. 이 init 함수에서 리턴되는 객체가 결국 $("<div>")가 가리키는 객체가 된다.
 
 그렇다면, 이 객체는 어떻게 jQuery.prototype의 각종 property에 접근할 수 있을까?
 
 다음 한줄의 코드가 이러한 의문을 해소시켜준다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 // Give the init function the jQuery prototype for later instantiation
 jQuery.prototype.init.prototype = jQuery.prototype;
-[/sourcecode]
+{% endhighlight %}
 
 jQuery.prototype.init의 prototype 객체를 jQuery.prototype을 가리키게 함으로써 새롭게 생성된 객체는 jQuery.prototype의 각종 property를 사용할 수 있게된다. 이를 그림으로 표현하면 다음과 같다.
 
-<a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/jquery1.png"><img class="aligncenter size-full wp-image-127" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/jquery1.png" alt="" width="441" height="343" /></a>
+![]({{ site.url }}/assets/jquery1.png)
 
 따라서 사용자가 $("div")를 통해 생성한 새로운 객체는 jQuery.prototype에 정의되어 있는 여러가지 프로퍼티에 접근할 수 있는 "jQuery" 객체가 되는 것이다.
 

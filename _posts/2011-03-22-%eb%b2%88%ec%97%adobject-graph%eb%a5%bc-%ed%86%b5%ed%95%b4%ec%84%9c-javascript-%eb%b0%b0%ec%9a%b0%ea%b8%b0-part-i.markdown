@@ -12,17 +12,17 @@ JavaScript에서 변수는 메모리 어딘가의 값을 가리키는 단순한 
 <h3>Local Variables</h3>
 아래의 예제에서처럼, top-level scope에서 4개의 로컬 변수를 만들 것이고 그것들은 어떤 프리미티브 값들을 가르킬 것이다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 // Let's create some local variables in the top scope
-var name = &quot;Tim Caswell&quot;;
+var name = "Tim Caswell";
 var age = 28;
 var isProgrammer = true;
 var likesJavaScript = true;
 // Test to see if the two variables reference the same value
 isProgrammer === likesJavaScript;
 
-// output ==&gt; true
-[/sourcecode]
+// output ==> true
+{% endhighlight %}
 
 <img class="alignleft" src="http://howtonode.org/object-graphs/variables.dot" alt="" width="323" height="203" />
 
@@ -34,10 +34,10 @@ isProgrammer === likesJavaScript;
 <h3>Objects and Prototype Chains</h3>
 Object는 새로운 Object와 prototype을 참조하는 모음이다. 특별한 것은 추가된 기능은 Prototype chain이라는 것이고 이것은  property에 접근하려고할때 로컬 Object에 없다면 Object에 있는 property를 접근가능하게 해준다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 // Create a parent object
 var tim = {
-   name: &quot;Tim Caswell&quot;,
+   name: "Tim Caswell",
    age: 28,
    isProgrammer: true,
    likesJavaScript: true
@@ -45,13 +45,13 @@ var tim = {
 // Create a child object
 var jack = Object.create(tim);
 // Override some properties locally
-jack.name = &quot;Jack Caswell&quot;;
+jack.name = "Jack Caswell";
 jack.age = 4;
 // Look up stuff through the prototype chain
 jack.likesJavaScript;
 
-// Output ==&gt; true
-[/sourcecode]
+// Output ==> true
+{% endhighlight %}
 
 <img class="aligncenter" src="http://howtonode.org/object-graphs/objects.dot" alt="" width="611" height="337" />
 
@@ -60,13 +60,13 @@ jack.likesJavaScript;
 <h3>The Global Object</h3>
 <a href="http://jslint.com/">jslint</a> 같은 툴들은 변수 앞에 var를 사용하라고 이야기한다. var를 사용하지 않을 경우는 아래와 같다.
 
-[sourcecode language="javascript"]
-var name = &quot;Tim Caswell&quot;;
+{% highlight js %}
+var name = "Tim Caswell";
 var age = 28;
 var isProgrammer = true;
 // Oops we forgot a var
 likesJavaScript = true;
-[/sourcecode]
+{% endhighlight %}
 
 <img class="alignleft" src="http://howtonode.org/object-graphs/globals.dot" alt="" width="440" height="246" />
 
@@ -82,22 +82,22 @@ Function은 executable code 뿐만 아니라 property를 가지고있는 특별�
 
 이번 예제에서 closure를 생성하고 function을 반환하는 간단한 factory 메소드를 만들도록 하겠다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function makeClosure(name) {
    return function () {
       return name;
    };
 }
 
-var description1 = makeClosure(&quot;Cloe the Closure&quot;);
-var description2 = makeClosure(&quot;Albert the Awesome&quot;);
+var description1 = makeClosure("Cloe the Closure");
+var description2 = makeClosure("Albert the Awesome");
 console.log(description1());
 console.log(description2());
 
 // Output
 // Cloe the Closure
 // Albert the Awesome
-[/sourcecode]
+{% endhighlight %}
 
 <img class="aligncenter" src="http://howtonode.org/object-graphs/closure.dot" alt="" width="768" height="409" />
 
@@ -107,9 +107,9 @@ console.log(description2());
 <h3>Shared Functions and this</h3>
 퍼포먼스의 이유 혹은 선호하는 스타일 때문에 JavaScript는 <code>this</code>라는 키워드를 제공하고 function Object를 다른 scope에서 불리는 방법에 따라 재사용하기도 한다. 공통 function을 공유하는 몇가지 Object를 생성한다. 이 function은 <code>this</code>를 참조하고 내부적으로 호출마다 어떻게 바뀌는 지를 보여준다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var Lane = {
-   name: &quot;Lane the Lambda&quot;,
+   name: "Lane the Lambda",
    description: function () {
       return this.name;
    }
@@ -118,14 +118,14 @@ var Lane = {
 var description = Lane.description;
 var Fred = {
    description: Lane.description,
-   name: &quot;Fred the Functor&quot;
+   name: "Fred the Functor"
 };
 // Call the function from four different scopes
 console.log(Lane.description());
 console.log(Fred.description());
 console.log(description());
 console.log(description.call({
-   name: &quot;Zed the Zetabyte&quot;
+   name: "Zed the Zetabyte"
 }));
 
 // Output
@@ -133,7 +133,7 @@ console.log(description.call({
 // Fred the Functor
 // undefined
 // Zed the Zetabyte
-[/sourcecode]
+{% endhighlight %}
 
 <img class="aligncenter" src="http://howtonode.org/object-graphs/functions.dot" alt="" width="544" height="393" />
 

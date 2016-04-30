@@ -10,13 +10,13 @@ data 메소드는 사용자가 DOM 요소에 프로퍼티를 추가하고 싶을
 
 먼저 다음 코드를 보자.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var node = document.getElementById('myId');
 node.onclick = function(){};
 node.myObj = {
 label : document.getElementById('myLabel');
 };
-[/sourcecode]
+{% endhighlight %}
 
 사용자는 편의를 위해 혹은 빠른 참조를 위해 위와 같은 코드가 필요할 경우가 있다. 하지만 이 코드는 몇몇 웹브라우저에서 가비지 컬렉션 구현의 결점으로 인해 메모리 누수의 원인이 된다.
 
@@ -24,17 +24,17 @@ jquery에 data메소드가 있는 이유는 이러한 용도로 쓸 수 있되, 
 
 위의 코드는 다음과 같이 data메소드를 이용하여 깔끔하고 안전하게 구현할 수 있다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 $('#myId').data('myObj', {
     label: $('#myLabel')[0]}
 );
 var myObj = $('#myId').data('myObj');
 myObj.label;
-[/sourcecode]
+{% endhighlight %}
 
 data 메소드에 대해 소스를 통해 자세히 살펴보자.
 
-[sourcecode language="javascript"]
+{% highlight js %}
     data: function( elem, name, data ) {
         elem = elem == window ?
             windowData :
@@ -60,11 +60,13 @@ data 메소드에 대해 소스를 통해 자세히 살펴보자.
                jQuery.cache[ id ][ name ] :
                id;
       },
-[/sourcecode]
+{% endhighlight %}
 
 6 ~ 10 라인 : expando 는 흔히 런타임시에 객체에 추가되는 프로퍼티를 일컫는데, jquery에서 expando는 다음과 같이 선언되어 있다.
 
+{% highlight js %}
 var expando = "jQuery" + (new Date()).getTime();
+{% endhighlight %}
 
 즉, DOM요소의 expando 프로퍼티에 유니크한 아이디를 할당한다. 여기의 uuid는 곧 아래 나오는 jQuery.cache에 저장되는 인덱스로서 활용이 된다.
 

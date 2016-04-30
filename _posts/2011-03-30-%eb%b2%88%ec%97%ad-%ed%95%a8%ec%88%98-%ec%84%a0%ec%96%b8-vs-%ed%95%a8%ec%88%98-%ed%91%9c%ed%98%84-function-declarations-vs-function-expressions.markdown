@@ -10,7 +10,7 @@ date: '2011-03-30 19:17:51'
 
 짧은 퀴즈로 시작하자. 다음 코드의 결과가 어떻게 될까?
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //Question 1:
 function foo(){
     function bar() {
@@ -58,35 +58,36 @@ function foo(){
     };
 }
 alert(foo());
-[/sourcecode]
+{% endhighlight %}
 
 8, 3, 3, [Type Error] 이라고 답하지 않았다면, 이 글을 계속 읽기 바란다. (실제로는 어차피 읽겠지만.. ^^)
 <h3>What is a Function Declarations? (함수 선언이란 무엇인가?)</h3>
 <strong>함수 정의는 변수 할당 없이 이름 있는 함수를 정의한 것이다. </strong>함수 정의는 마치 standalone 구조물처럼 비함수 블록에는 포함될 수 없다. 함수 선언을 변수 선언의 형제 정도로 생각하는 것도 도움이 될 것이다. 변수 선언이 "var" 키워드로 시작하는 것과 같이, 함수 선언도 "function" 키워드로 시작해야 한다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function bar() {
     return 3;
 }
-[/sourcecode]
+{% endhighlight %}
 
 ECMA5 (13.0)은 함수 선언에 대해서 다음과 같은 문법으로 정의하고 있다.
 <blockquote><strong>function</strong> <em>Identifier</em> ( <em>FormalParameterList</em><sub>opt</sub> ) { <em>FunctionBody</em> }</blockquote>
 함수명은 자신의 영역(Scope)과 자신의 부모의 영역(Scope)에서 접근 가능하다(visible).
 
-[sourcecode language="javascript"]
+{% highlight js %}
 function bar() {
     return 3;
 }
 
 bar() //3
 bar  //function
-[/sourcecode]
+{% endhighlight %}
+
 <h3>What is Function Expression? (함수 표현이란 무엇인가?)</h3>
 함수 표현은  커다란 문법 표현의(전형적으로는 변수 할당) 일부로 함수를 정의한다. 함수 표현에 의해 정의된 함수는 이름을 가지거나 익명일 수 있다.
 함수 표현은 "function"으로  시작하지 않는다. (그러므로 아래 자기 호출 함수 예제의 경우 괄호로 묶여 있는 것이다.)
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //anonymous function expression
 var a = function() {
     return 3;
@@ -99,9 +100,9 @@ var a = function bar() {
 
 //self invoking function expression
 (function sayHello() {
-    alert(&quot;hello!&quot;);
+    alert("hello!");
 })();
-[/sourcecode]
+{% endhighlight %}
 
 ECMA5 (13.0)은 함수 표현에 대해 다음과 같은 문법으로 정의하고 있다.
 <blockquote><strong>function</strong> <em>Identifier</em><sub>opt</sub> ( <em>FormalParameterList</em><sub>opt</sub> ) { <em>FunctionBody</em> }</blockquote>
@@ -119,7 +120,7 @@ ECMA5 (13.0)은 함수 표현에 대해 다음과 같은 문법으로 정의하�
 
 함수 선언이 Scope 상위 부분으로 이동할 때, 전체 함수 바디도 같이 움직인다. 그래서 인터프리터가 Question1에 코드를 처리한 후, 그것은 다음과 같이 실행한다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //**Simulated processing sequence for Question 1**
 function foo(){
     //define bar once
@@ -134,17 +135,17 @@ function foo(){
     return bar(); //8
 }
 alert(foo());
-[/sourcecode]
+{% endhighlight %}
 
 <strong>Do Function Expressions get Hoisted too?</strong>
 
 그것은 함수 표현에 따라 다르다. Quiz2에 첫번째 함수 표현을 보자.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var bar = function() {
 	return 3;
 };
-[/sourcecode]
+{% endhighlight %}
 
 왼쪽 부부은 (var bar)은 변수 선언이다. 변수 선언은 Scope의 상위 부분으로 이동하지만, 할당 부분(= 오른쪽 함수 부분)은 이동하지 않는다. 그래서 bar가 Scope의 맨 윗 부분으로로 이동하면 인터프리터는 초기에 var bar = undefined로 설정한다. 그러나 = 오른쪽 부분의 함수 정의 자체는 Scope의 상위 영역으로 이동되지 않는다.
 
@@ -152,7 +153,7 @@ var bar = function() {
 
 그래서 Question2에 코드는 다음과 같은 순서로 실행된다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //**Simulated processing sequence for Question 2**
 function foo(){
 	//a declaration for each function expression
@@ -167,7 +168,7 @@ function foo(){
 	// second Function Expression unreachable
 }
 alert(foo()); //3
-[/sourcecode]
+{% endhighlight %}
 
 <strong>Ok I think that makes sense. By the way, you’re wrong about Question 3. I ran it in Firebug and got an error</strong>
 
@@ -179,17 +180,17 @@ Question 3은 Question1과 비슷한 로직에 기반한 것이다. 이 경우 f
 
 거의 맞다. 만약 아무것도 hosting 되지 않았다면, TypeError은 "bar not a function"이 아니라 "bar not defined" 일 것이다. 함수 hosting은 없지만, 변수 hosting이 이뤄진다. 그래서 bar는 Scope에 윗 부분에 선언되지만, 그것의 값은 undefined이다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //**Simulated processing sequence for Question 4**
 function foo(){
 	//a declaration for each function expression
 	var bar = undefined;
 	var bar = undefined;
-    return bar(); //TypeError: &quot;bar not defined&quot;
+    return bar(); //TypeError: "bar not defined"
 	//neither Function Expression is reached
 }
 alert(foo());
-[/sourcecode]
+{% endhighlight %}
 
 <strong>What else should I watch out for?</strong>
 
@@ -207,27 +208,27 @@ alert(foo());
 
 a) 함수 선언은  자바 스타일의 메서드 선언을 흉내낸것 같지만, 자바 메서드는 매우 다른 놈이다. 자바스크립트 함수는 값들을 가진 살아있는(?) 객체다. 자바 메서드는 단지 메타데이터 저장소이다. 아래 코드의 두 부분 모두 함수를 정의하고 있지만, 단지 함수 표현만이 객체를 생성중임을 나타낸다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //Function Declaration
 function add(a,b) {return a + b};
 //Function Expression
 var add = function(a,b) {return a + b};
-[/sourcecode]
+{% endhighlight %}
 
 b) 함수 표현은 굉장히 다재다능하다. 함수 선언은 단지 "문장"으로 따로 분리되어서만 존재할 수 있다. 그것이 할 수 있는건 그것의 현재 Scope을 부모로 하는 객체 변수를 생성하는 것 뿐이다. 반면에 '함수 표현'은 좀더 큰 구조물의 일부이다. 당신이 익명 함수나 함수의 prototype 할당이나 다른 객체의 프로퍼티로 사용하려면 '함수 표현'을 이용해야 한다. <a href="http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/" target="_blank">curry</a> 나 <a href="http://javascriptweblog.wordpress.com/2010/04/14/compose-functions-as-building-blocks/" target="_blank">compose</a>와 같은 상위 애플리케이션을 사용하는 새 함수를 생성할때마다, 함수 표현을 사용한다. 함수 표현과 함수 단위 프로그래밍은 불가분 관계이다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 //Function Expression
-var sayHello = alert.curry(&quot;hello!&quot;);
-[/sourcecode]
+var sayHello = alert.curry("hello!");
+{% endhighlight %}
 
 <strong>Do Function Expressions have any drawbacks?</strong>
 
 보통 함수 표현으로 생성되는 함수는 익명이다. 예를 들어 다음 함수는 익명이다. today는 단지 익명 함수의 레퍼런스이다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var today = function today() {return new Date()}
-[/sourcecode]
+{% endhighlight %}
 
 이것이 정말 문제가 되나? 대부분 아니지만, <a href="http://fitzgeraldnick.com/weblog/" target="_blank">Nick Fitzgerald</a>가 지적한 것 처럼 익명 함수의 디버깅은 좌절감을 줄 수 있다. 그는 이러한 문제를 해결하기 위해 Named Function Expressions(NFEs)를 제안했다.
 

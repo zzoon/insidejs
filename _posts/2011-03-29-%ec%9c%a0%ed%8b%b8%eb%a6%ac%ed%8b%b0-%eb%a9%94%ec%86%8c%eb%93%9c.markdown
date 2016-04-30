@@ -12,18 +12,16 @@ jQuery는 몇가지 유틸리티 메소드를 $ namespace에서 제공한다. �
 
 <strong>공백을 제거한다.</strong>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 $.trim('    lots of extra whitespace    ');
 // returns 'lots of extra whitespace'
-[/sourcecode]
-
-&nbsp;
+{% endhighlight %}
 
 <strong>$.each</strong>
 
 <strong>배열과 객체를 순환해서 접근한다.</strong>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 
 $.each([ 'foo', 'bar', 'baz' ], function(idx, val) {
     console.log('element ' + idx + 'is ' + val);
@@ -32,57 +30,50 @@ $.each([ 'foo', 'bar', 'baz' ], function(idx, val) {
 $.each({ foo : 'bar', baz : 'bim' }, function(k, v) {
     console.log(k + ' : ' + v);
 });
+{% endhighlight %}
 
-[/sourcecode]
-
-<strong>&lt;주의&gt; $.fn.each 메소드도 존재한다. 이 메소드는 selection의 각 요소들을 순환해서 접근한다.</strong>
-
-&nbsp;
+<strong><주의> $.fn.each 메소드도 존재한다. 이 메소드는 selection의 각 요소들을 순환해서 접근한다.</strong>
 
 <strong>$.inArray </strong>
 
 <strong>배열 안에서 해당값의 인덱스를 리턴하고, 없으면 -1을 리턴한다.</strong>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var myArray = [ 1, 2, 3, 5 ];
 
 if ($.inArray(4, myArray) !== -1) {
     console.log('found it!');
 }
-[/sourcecode]
-
-&nbsp;
+{% endhighlight %}
 
 <strong>$.extend</strong>
 <strong> 첫번째 객체의 프로퍼티를 이후의 오브젝트들의 프로퍼티를 이용하여 바꾼다.</strong>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var firstObject = { foo : 'bar', a : 'b' };
 var secondObject = { foo : 'baz' };
 
 var newObject = $.extend(firstObject, secondObject);
 console.log(firstObject.foo); // 'baz'
 console.log(newObject.foo);   // 'baz'
-[/sourcecode]
+{% endhighlight %}
 
 만약 당신이 인자로 넘기는 객체가 변하지 않기를 바란다면 첫번째 인자를 빈 객체를 넘기면 된다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var firstObject = { foo : 'bar', a : 'b' };
 var secondObject = { foo : 'baz' };
 
 var newObject = $.extend({}, firstObject, secondObject);
 console.log(firstObject.foo); // 'bar'
 console.log(newObject.foo);   // 'baz'
-[/sourcecode]
-
-&nbsp;
+{% endhighlight %}
 
 <strong>$.proxy </strong>
 
 <strong>사용자에 의해 제공된 스코프안에서 실행될 함수 객체를 리턴한다. 즉, 두번째 인자로 넘겨지는 함수안의 this를 세팅하는 것과 같다.</strong>
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var myFunction = function() { console.log(this); };
 var myObject = { foo : 'bar' };
 
@@ -90,11 +81,11 @@ myFunction(); // logs window object
 
 var myProxyFunction = $.proxy(myFunction, myObject);
 myProxyFunction(); // logs myObject object
-[/sourcecode]
+{% endhighlight %}
 
 만약 메소드를 정의한 객체가 있다면, 그 객체와 메소드의 이름을 넘기면 해당 객체의 스코프안에서 실행될 함수 객체가 리턴된다.
 
-[sourcecode language="javascript"]
+{% highlight js %}
 var myObject = {
     myFn : function() {
         console.log(this);
@@ -103,4 +94,4 @@ var myObject = {
 
 $('#foo').click(myObject.myFn); // logs DOM element #foo
 $('#foo').click($.proxy(myObject, 'myFn')); // logs myObject
-[/sourcecode]
+{% endhighlight %}

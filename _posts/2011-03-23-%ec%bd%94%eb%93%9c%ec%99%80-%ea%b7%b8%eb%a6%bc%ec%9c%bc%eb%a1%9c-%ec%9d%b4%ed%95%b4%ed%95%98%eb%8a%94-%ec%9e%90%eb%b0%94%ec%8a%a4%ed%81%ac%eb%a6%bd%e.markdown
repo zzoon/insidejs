@@ -4,8 +4,9 @@ title: 코드와 그림으로 이해하는 자바스크립트 객체와 프로�
 date: '2011-03-23 23:12:05'
 ---
 
-<a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/prototype12.png">
-</a>아래 글에 이어서 프로토타입에 대해서 예제 코드와 그림을 통해 이해해 보도록 하자.
+![]({{ site.url }}/assets/prototype12.png)
+
+아래 글에 이어서 프로토타입에 대해서 예제 코드와 그림을 통해 이해해 보도록 하자.
 
 아래 ECMAScript 262 에서 설명한 것중에 반드시 알아야 하는 것은 다음과 같다.
 
@@ -19,31 +20,28 @@ date: '2011-03-23 23:12:05'
 
 다음 코드를 보자.
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function A() {}
-
-[/sourcecode]
+{% endhighlight %}
 
 ﻿
 
 이 한 줄의 코드는 A라는 이름의 function object를 생성하는 코드이다. 이를 그림으로 그려보면 다음과 같다.
 
-﻿<a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/prototype13.png"><img class="aligncenter size-full wp-image-109" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/prototype13.png" alt="" width="489" height="314" /></a>위 그림에서 보듯이 A라는 function object가 만들어지면서 A.prototype이라는 prototye object가 만들어진다.  Function object가 생성될 때, prototype object는 자동적으로 만들어지며, empty object이다. 그리고 이 prototype object의 constructor는 function A가 된다.  여기서 function A의 [[Prototype]]이 A.prototype이 아닌, Function.prototype임을 주의해야 한다. A의 constructor가 Function이므로 A의 [[Prototype]]은 constructor.prototype인 Function.prototype을 가리키게 되는 것이다.
+![]({{ site.url }}/assets/prototype13.png)
+
+위 그림에서 보듯이 A라는 function object가 만들어지면서 A.prototype이라는 prototye object가 만들어진다.  Function object가 생성될 때, prototype object는 자동적으로 만들어지며, empty object이다. 그리고 이 prototype object의 constructor는 function A가 된다.  여기서 function A의 [[Prototype]]이 A.prototype이 아닌, Function.prototype임을 주의해야 한다. A의 constructor가 Function이므로 A의 [[Prototype]]은 constructor.prototype인 Function.prototype을 가리키게 되는 것이다.
 
 여기서 다음 코드를 추가한다.
 
-[sourcecode language="javascript"]
-
+{% highlight js %}
 function A() {}
-
 B = new A();
-
-[/sourcecode]
+{% endhighlight %}
 
 위와 같이 A를 constructor로 하여 B 객체를 생성한다면,  아래 그림과 같을 것이다.
 
-<a href="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/prototype2.png"><img class="aligncenter size-full wp-image-114" src="http://nodejs-kr.org/wordpress/wp-content/uploads/2011/03/prototype2.png" alt="" width="622" height="319" /></a>
+![]({{ site.url }}/assets/prototype2.png)
 
 B의 [[Prototype]]은 constructor인 A의 prototype을 가리키게 된다.
 
